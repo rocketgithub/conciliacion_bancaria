@@ -3,23 +3,22 @@
 #
 # Este es el modulo de conciliación bancaria
 #
-# Status 1.0 - tested on Open ERP 7.0
+# Status 1.0 - tested on Odoo 9.0
 #
 
 {
-    'name' : 'conciliacion_bancaria',
+    'name' : 'Conciliación Bancaria',
     'version' : '1.0',
     'category': 'Custom',
     'description': """Manejo de conciliación bancaria""",
     'author': 'Rodrigo Fernandez',
     'website': 'http://solucionesprisma.com/',
-    'depends' : [ 'account', 'l10n_gt' ],
-    'init_xml' : [ ],
-    'demo_xml' : [ ],
-    'update_xml' : [
-        'account_move_line.xml',
-        'conciliar.xml',
-        'reportes.xml'
+    'depends' : [ 'l10n_gt_extra' ],
+    'data' : [
+        'views/account_move_line.xml',
+        'views/report.xml',
+        'views/reporte_banco.xml',
+        'wizard/conciliar.xml',
     ],
     'installable': True,
     'certificate': '',

@@ -1,4 +1,4 @@
 # -*- encoding: utf-8 -*-
 
-import banco_reporte
-import banco_reporte_asistente
+import asistente_reporte_banco
+import reporte_banco

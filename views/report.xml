@@ -1,32 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
 
-        <record id="conciliacion_asistente_banco_reporte" model="ir.ui.view">
-            <field name="name">conciliacion.banco_reporte_asistente</field>
-            <field name="model">conciliacion.banco_reporte_asistente</field>
+        <record id="conciliacion_bancaria_asistente_reporte_banco" model="ir.ui.view">
+            <field name="name">conciliacion_bancaria.asistente_reporte_banco</field>
+            <field name="model">conciliacion_bancaria.asistente_reporte_banco</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Seleccione cuenta y rango de fecha">
-                    <group col="4" colspan="1">
-                        <field name="cuenta_bancaria_id" colspan="4"/>
-                        <field name="periodo_desde"/>
-                        <field name="periodo_hasta"/>
-                        <field name="circulacion"/>
+                    <group>
+                        <group>
+                            <field name="cuenta_bancaria_id"/>
+                            <field name="mostrar_circulacion"/>
+                        </group>
+                        <group>
+                            <field name="fecha_desde"/>
+                            <field name="fecha_hasta"/>
+                        </group>
                     </group>
-                    <field name="ejercicios_fiscales" nolabel="1"/>
-                    <group col="2" colspan="4">
-                        <button icon="gtk-cancel" special="cancel" string="Cancelar"/>
-                        <button icon="gtk-ok" name="reporte" string="Reporte" type="object"/>
-                    </group>
+                    <footer>
+                        <button name="print_report" string="Reporte" type="object" class="oe_highlight"/>
+                        o
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
                 </form>
             </field>
         </record>
 
-        <act_window id="conciliacion_window_banco_reporte" name="Libro de banco conciliado" res_model="conciliacion.banco_reporte_asistente" src_model="account.account" view_mode="form" target="new"/>
-
-        <menuitem icon="STOCK_PRINT" action="conciliacion_window_banco_reporte" id="conciliacion_menu_banco_reporte_asistente" parent="account.final_accounting_reports"/>
-
-        <report id="conciliacion_banco_reporte" model="conciliacion.banco_reporte_asistente" name="conciliacion_banco_reporte" rml="conciliacion_bancaria/report/banco_reporte.rml" string="Libro de banco conciliado" header="False"/>
+        <act_window id="conciliacion_bancaria_window_banco_reporte" name="Libro de banco conciliado" res_model="conciliacion_bancaria.asistente_reporte_banco" src_model="account.account" view_mode="form" target="new"/>
+        <menuitem action="conciliacion_bancaria_window_banco_reporte" id="conciliacion_bancaria_menu_banco_reporte_asistente" parent="account.menu_finance_legal_statement"/>
+        <report id="conciliacion_bancaria_action_reporte_banco" model="conciliacion_bancaria.asistente_reporte_banco" string="Libro de banco conciliado" report_type="qweb-pdf" name="conciliacion_bancaria.reporte_banco" file="conciliacion_bancaria.reporte_banco"/>
+        <!-- <report id="action_reporte_banco" model="conciliacion.banco_reporte_asistente" name="conciliacion_banco_reporte" rml="conciliacion_bancaria/report/banco_reporte.rml" string="Libro de banco conciliado" header="False"/> -->
 
     </data>
 </openerp>
