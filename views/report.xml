@@ -28,9 +28,8 @@
         </record>
 
         <act_window id="conciliacion_bancaria_window_banco_reporte" name="Libro de banco conciliado" res_model="conciliacion_bancaria.asistente_reporte_banco" src_model="account.account" view_mode="form" target="new"/>
-        <menuitem action="conciliacion_bancaria_window_banco_reporte" id="conciliacion_bancaria_menu_banco_reporte_asistente" parent="account.menu_finance_legal_statement"/>
+        <menuitem action="conciliacion_bancaria_window_banco_reporte" id="conciliacion_bancaria_menu_banco_reporte_asistente" parent="account.menu_finance_reports"/>
         <report id="conciliacion_bancaria_action_reporte_banco" model="conciliacion_bancaria.asistente_reporte_banco" string="Libro de banco conciliado" report_type="qweb-pdf" name="conciliacion_bancaria.reporte_banco" file="conciliacion_bancaria.reporte_banco"/>
-        <!-- <report id="action_reporte_banco" model="conciliacion.banco_reporte_asistente" name="conciliacion_banco_reporte" rml="conciliacion_bancaria/report/banco_reporte.rml" string="Libro de banco conciliado" header="False"/> -->
 
     </data>
 </openerp>
