@@ -4,7 +4,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import UserError, ValidationError
 import time
 
-class AsistenteReporteBanco(models.Model):
+class AsistenteReporteBanco(models.TransientModel):
     _name = 'conciliacion_bancaria.asistente_reporte_banco'
 
     def _default_cuenta(self):

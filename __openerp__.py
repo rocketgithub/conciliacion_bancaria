@@ -19,6 +19,7 @@
         'views/report.xml',
         'views/reporte_banco.xml',
         'wizard/conciliar.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'certificate': '',

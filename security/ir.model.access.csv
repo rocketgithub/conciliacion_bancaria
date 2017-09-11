@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+conciliacion_bancaria,conciliacion_bancaria,model_conciliacion_bancaria_fecha,account.group_account_user,1,1,1,1
