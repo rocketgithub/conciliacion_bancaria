@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 from openerp import models, fields, api, _
-from openerp.exceptions import UserError, ValidationError
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'

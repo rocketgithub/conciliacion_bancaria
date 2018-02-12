@@ -1,11 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-#
-# Este es el modulo de conciliación bancaria
-#
-# Status 1.0 - tested on Odoo 9.0
-#
-
 {
     'name' : 'Conciliación Bancaria',
     'version' : '1.0',
@@ -21,6 +15,7 @@
         'wizard/conciliar.xml',
         'security/ir.model.access.csv',
     ],
+    'demo': [],
     'installable': True,
-    'certificate': '',
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

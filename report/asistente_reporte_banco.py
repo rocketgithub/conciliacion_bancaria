@@ -18,11 +18,13 @@ class AsistenteReporteBanco(models.TransientModel):
     fecha_desde = fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
     fecha_hasta = fields.Date(string="Fecha Final", required=True, default=lambda self: time.strftime('%Y-%m-%d'))
 
+    @api.multi
     def print_report(self):
-        active_ids = self.env.context.get('active_ids', [])
         data = {
-             'ids': active_ids,
-             'model': self.env.context.get('active_model', 'ir.ui.menu'),
+             'ids': [],
+             'model': 'conciliacion_bancaria.asistente_reporte_banco',
              'form': self.read()[0]
         }
-        return self.env['report'].get_action([], 'conciliacion_bancaria.reporte_banco', data=data)
+        return self.env.ref('conciliacion_bancaria.conciliacion_bancaria_action_reporte_banco').report_action(self, data=data)
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
