@@ -8,11 +8,11 @@
 
                     <div class="row mt32">
                         <div class="col-xs-4">
-                            <strong>Cuenta-:</strong> <span t-esc="data['cuenta_bancaria_id'][1]"/><br/>
+                            <strong>Cuenta: </strong> <span t-esc="data['cuenta_bancaria_id'][1]"/><br/>
                         </div>
                         <div class="col-xs-4">
-                            <strong>Fecha inicial:</strong> <span t-esc="data['fecha_desde']" t-esc-options='{"widget": "date"}'/><br/>
-                            <strong>Fecha final:</strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
+                            <strong>Fecha inicial: </strong> <span t-esc="data['fecha_desde']" t-esc-options='{"widget": "date"}'/><br/>
+                            <strong>Fecha final: </strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
                         </div>
                     </div>
 
@@ -74,45 +74,62 @@
                     </table>
 
                     <t t-if="data['mostrar_circulacion']">
-                    <div>
-                        <strong>En circulación</strong>
+                        <div>
+                            <strong>En circulación</strong>
+                        </div>
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Doc</th>
+                                    <th>Nombre</th>
+                                    <th>Concepto</th>
+                                    <th class="text-right">Credito</th>
+                                    <th class="text-right">Debito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas(False, data)" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['nombre']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['concepto']"/>
+                                    </td>
+                                    <td class="text-right">
+                                         <span t-esc="l['debito']" t-esc-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['credito']" t-esc-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <div class="row mt32">
+                        <div class="col-xs-4">
+                            <strong>Hecho por: ___________________________</strong>
+                        </div>
+                        <div class="col-xs-4">
+                        </div>
+                        <div class="col-xs-4">
+                            <strong>Revisado por: ___________________________</strong>
+                        </div>
                     </div>
 
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Doc</th>
-                                <th>Nombre</th>
-                                <th>Concepto</th>
-                                <th class="text-right">Credito</th>
-                                <th class="text-right">Debito</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="lineas(False, data)" t-as="l">
-                                <td>
-                                    <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
-                                </td>
-                                <td>
-                                    <span t-esc="l['documento']"/>
-                                </td>
-                                <td>
-                                    <span t-esc="l['nombre']"/>
-                                </td>
-                                <td>
-                                    <span t-esc="l['concepto']"/>
-                                </td>
-                                <td class="text-right">
-                                     <span t-esc="l['debito']" t-esc-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="l['credito']" t-esc-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </t>
+                    <div class="row mt32">
+                        <div class="col-xs-4">
+                            <strong>Vo. Bo.: ___________________________</strong>
+                        </div>
+                    </div>
                 </div>
             </t>
         </t>
