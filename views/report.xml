@@ -10,8 +10,9 @@
                 <form string="Seleccione cuenta y rango de fecha">
                     <group>
                         <group>
-                            <field name="cuenta_bancaria_id"/>
-                            <field name="mostrar_circulacion"/>
+                            <!-- <field name="cuenta_bancaria_id"/>
+                            <field name="mostrar_circulacion"/> -->
+                            <field name="cuentas_id"/>
                         </group>
                         <group>
                             <field name="fecha_desde"/>

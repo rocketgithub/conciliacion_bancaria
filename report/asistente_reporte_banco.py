@@ -13,7 +13,8 @@ class AsistenteReporteBanco(models.TransientModel):
         else:
             return None
 
-    cuenta_bancaria_id = fields.Many2one("account.account", string="Cuenta", required=True, default=_default_cuenta)
+    # cuenta_bancaria_id = fields.Many2one("account.account", string="Cuenta", required=True, default=_default_cuenta)
+    cuentas_id = fields.Many2many('account.account','conciliacion_bancaria_cuentas_rel',string="Cuentas")
     mostrar_circulacion = fields.Boolean(string="Mostrar documentos en circulación")
     fecha_desde = fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
     fecha_hasta = fields.Date(string="Fecha Final", required=True, default=lambda self: time.strftime('%Y-%m-%d'))
