@@ -12,6 +12,7 @@
         'views/account_move_line.xml',
         'views/report.xml',
         'views/reporte_banco.xml',
+        'views/reporte_disponibilidad.xml',
         'wizard/conciliar.xml',
         'security/ir.model.access.csv',
     ],
