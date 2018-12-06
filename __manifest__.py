@@ -13,6 +13,7 @@
         'views/report.xml',
         'views/reporte_banco.xml',
         'views/reporte_disponibilidad.xml',
+        'views/reporte_disponibilidad_resumen.xml',
         'wizard/conciliar.xml',
         'security/ir.model.access.csv',
     ],
