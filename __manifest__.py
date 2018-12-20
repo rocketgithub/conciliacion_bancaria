@@ -7,7 +7,7 @@
     'description': """Manejo de conciliación bancaria""",
     'author': 'Rodrigo Fernandez',
     'website': 'http://solucionesprisma.com/',
-    'depends' : [ 'l10n_gt_extra' ],
+    'depends' : [ 'account' ],
     'data' : [
         'views/account_move_line.xml',
         'views/report.xml',
