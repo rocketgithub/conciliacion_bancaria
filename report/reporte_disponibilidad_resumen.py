@@ -24,7 +24,7 @@ class DisponibilidadResumenReporte(models.Model):
                     sum(debe_sin_conciliar) as debe_sin_conciliar,
                     sum(haber_sin_conciliar) as haber_sin_conciliar,
                     sum(saldo_conciliado) as saldo_conciliado,
-                    sum(saldo_conciliado - debe_sin_conciliar + haber_sin_conciliar) as saldo
+                    sum(saldo_conciliado + debe_sin_conciliar - haber_sin_conciliar) as saldo
                 from (
                     select l.id as id,
                         l.account_id as cuenta_id,
