@@ -10,6 +10,8 @@
                 <field name="debe_sin_conciliar" type="measure"/>
                 <field name="haber_sin_conciliar" type="measure"/>
                 <field name="saldo_conciliado" type="measure"/>
+                <field name="creditos_no_encontrados" type="measure"/>
+                <field name="debitos_no_encontrados" type="measure"/>
             </pivot>
         </field>
     </record>
