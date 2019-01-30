@@ -21,8 +21,8 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
     fecha = fields.Date('Fecha conciliación')
     account_id = fields.Many2one('account.account', 'Cuenta')
     archivo = fields.Binary('Archivo excel')
-    move_line_ids = fields.Many2many('account.move.line', string='Apuntes contables')
-    excel_ids = fields.One2many('conciliacion_bancaria.excel', 'conciliacion_automatica_id', string='Detalle excel')
+    move_line_ids = fields.Many2many('account.move.line', string='Apuntes contables sin conciliar')
+    excel_ids = fields.One2many('conciliacion_bancaria.excel', 'conciliacion_automatica_id', string='Movimientos bancarios no encontrados')
 
     @api.multi
     def conciliar(self):

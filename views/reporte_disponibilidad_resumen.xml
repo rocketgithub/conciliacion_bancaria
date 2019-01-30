@@ -17,7 +17,7 @@
     </record>
 
     <record id="action_disponibilidad_resumen_report" model="ir.actions.act_window">
-        <field name="name">Reporte Disponibilidad Resumen</field>
+        <field name="name">Reporte disponibilidad</field>
         <field name="res_model">conciliacion_bancaria.disponibilidad_resumen.report</field>
         <field name="view_type">form</field>
         <field name="view_mode">pivot</field>
@@ -25,5 +25,5 @@
         <field name="view_id"></field>
     </record>
 
-    <menuitem id="menu_disponibilidad_resumen_report" name="Reporte Disponibilidad Resumen" parent="account.menu_finance_reports" action="action_disponibilidad_resumen_report"/>
+    <menuitem id="menu_disponibilidad_resumen_report" name="Reporte isponibilidad" parent="account.menu_finance_reports" action="action_disponibilidad_resumen_report"/>
 </odoo>
