@@ -24,6 +24,13 @@ class ConciliacionAutomatica(models.TransientModel):
     move_line_ids = fields.Many2many('account.move.line', 'wizard_move_line_rel', string='Apuntes contables')
     excel_ids = fields.One2many('conciliacion_bancaria.excel', 'conciliacion_automatica_id', string='Detalle excel')
 
+    def es_numero(self, numero):
+        try:
+            float(numero)
+        except ValueError:
+            return False
+        return True
+
     @api.multi
     def conciliar(self):
         workbook = xlrd.open_workbook(file_contents = base64.decodestring(self.archivo))
@@ -37,7 +44,13 @@ class ConciliacionAutomatica(models.TransientModel):
                 fecha = datetime.datetime.strftime(fecha, "%Y-%m-%d")
                 tipo_documento = sheet.cell(x, 1).value
                 numero_documento = sheet.cell(x, 2).value
+
+                if self.es_numero(numero_documento):
+                    numero_documento = str(int(numero_documento))
+
+                logging.warn(sheet.cell(x, 2).value)
                 llave = str(fecha) + '*' + str(numero_documento)
+                logging.getLogger('Llave').warn(llave)
                 dict[llave] = {}
                 dict[llave]['tipo_documento'] = sheet.cell(x, 1).value
                 dict[llave]['monto'] = float(sheet.cell(x, 3).value)
@@ -68,7 +81,7 @@ class ConciliacionAutomatica(models.TransientModel):
         logging.warn('HOLA')
         for llave in dict:
             campos = llave.split('*')
-            logging.warn(campos)
+#            logging.warn(campos)
             o2m_ids.append((0, 0, {'conciliacion_automatica_id': self.id, 'fecha':campos[0], 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento':campos[1], 'monto': dict[llave]['monto']}))
             if not pendientes_excel_obj._existe_registro(campos[0], self.account_id.id, campos[1]):
                 pendientes_excel_obj.create({'fecha': campos[0], 'account_id': self.account_id.id, 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento': campos[1], 'monto': dict[llave]['monto']})

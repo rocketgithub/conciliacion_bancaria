@@ -35,12 +35,21 @@ class DisponibilidadResumenReporte(models.Model):
                         case when f.fecha is null and l.debit > 0 then l.debit else 0 end as debe_sin_conciliar,
                         case when f.fecha is null and l.credit > 0 then l.credit else 0 end as haber_sin_conciliar,
                         case when f.fecha is not null then l.debit - l.credit else 0 end as saldo_conciliado,
-                        (select sum(monto) from conciliacion_bancaria_pendientes_excel where account_id = l.account_id and monto > 0) as creditos_no_encontrados,
-                        (select sum(monto) from conciliacion_bancaria_pendientes_excel where account_id = l.account_id and monto < 0) as debitos_no_encontrados
+                        0 as creditos_no_encontrados,
+                        0 as debitos_no_encontrados
                     from account_move_line l left join conciliacion_bancaria_fecha f on (l.id = f.move_id)
                     where account_id in (
                         select id from account_account where internal_type = 'liquidity'
                     )
+                    union all
+                    select l.id as id,
+                        l.account_id as cuenta_id,
+                        0 as debe_sin_conciliar,
+                        0 as haber_sin_conciliar,
+                        0 as saldo_conciliado,
+                        case when monto > 0 then monto else 0 end as creditos_no_encontrados,
+                        case when monto < 0 then monto else 0 end as debitos_no_encontrados
+                        from conciliacion_bancaria_pendientes_excel l
                 ) as detalles
                 group by cuenta_id
             )
