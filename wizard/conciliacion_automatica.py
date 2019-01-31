@@ -6,7 +6,7 @@ import datetime
 import xlrd
 import base64
 
-class ConciliacionAutomatica(models.TransientModel):
+class ConciliacionAutomaticaExcel(models.TransientModel):
     _name = 'conciliacion_bancaria.excel'
 
     conciliacion_automatica_id = fields.Many2one('conciliacion_bancaria.wizard', 'Conciliacion Automatica ID')
@@ -15,14 +15,14 @@ class ConciliacionAutomatica(models.TransientModel):
     numero_documento = fields.Char('No. doc.')
     monto = fields.Char('Monto')
 
-class ConciliacionAutomatica(models.TransientModel):
+class ConciliacionAutomaticaWizard(models.TransientModel):
     _name = 'conciliacion_bancaria.wizard'
 
     fecha = fields.Date('Fecha conciliación')
     account_id = fields.Many2one('account.account', 'Cuenta')
     archivo = fields.Binary('Archivo excel')
-    move_line_ids = fields.Many2many('account.move.line', 'wizard_move_line_rel', string='Apuntes contables')
-    excel_ids = fields.One2many('conciliacion_bancaria.excel', 'conciliacion_automatica_id', string='Detalle excel')
+    move_line_ids = fields.Many2many('account.move.line', string='Apuntes contables sin conciliar')
+    excel_ids = fields.One2many('conciliacion_bancaria.excel', 'conciliacion_automatica_id', string='Movimientos bancarios no encontrados')
 
     def es_numero(self, numero):
         try:
@@ -64,7 +64,7 @@ class ConciliacionAutomatica(models.TransientModel):
             llave = str(linea.date) + '*' + str(linea.ref)
             logging.getLogger('LLAVE').warn(llave)
             saldo = linea.debit - linea.credit
-            if llave in dict and dict[llave]['monto'] == saldo and not linea.conciliado_banco:                
+            if llave in dict and dict[llave]['monto'] == saldo and not linea.conciliado_banco:
                 self.env['conciliacion_bancaria.fecha'].create({'move_id': linea.id, 'fecha': self.fecha})
                 dict.pop(llave)
                 #Reviso si la linea a conciliar existe en los pendientes de excel. Si existe, la borro.
@@ -76,7 +76,7 @@ class ConciliacionAutomatica(models.TransientModel):
                 m2m_ids.append((4, linea.id))
 
         o2m_ids = []
-        #El diccionario con las llaves que no fueron borradas las agrego al o2m, y si no existe la linea en el objeto de pendientes 
+        #El diccionario con las llaves que no fueron borradas las agrego al o2m, y si no existe la linea en el objeto de pendientes
         #de excel, agrego esa linea al objeto.
         logging.warn('HOLA')
         for llave in dict:
@@ -91,10 +91,10 @@ class ConciliacionAutomatica(models.TransientModel):
             actualizar['excel_ids'] = o2m_ids
         if m2m_ids:
             actualizar['move_line_ids'] = m2m_ids
-            
+
         if len(actualizar) > 0:
             self.write(actualizar)
-            
+
         return {
             'view_type': 'form',
             'view_mode': 'form',
