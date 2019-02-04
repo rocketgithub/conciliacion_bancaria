@@ -11,8 +11,8 @@ class ConciliacionAutomatica_PendientesExcel(models.Model):
     numero_documento = fields.Char(string="No. doc.", required=True)
     monto = fields.Float(string='Monto', required=True)
 
-    def _existe_registro(self, fecha, account_id, numero_documento):
-        registro = self.search([('fecha', '=', fecha), ('numero_documento', '=', numero_documento), ('account_id', '=', account_id)])
+    def _existe_registro(self, numero_documento, account_id):
+        registro = self.search([('numero_documento', '=', numero_documento), ('account_id', '=', account_id)])
         if registro:
             return registro[0].id
         return False
