@@ -25,5 +25,5 @@
         <field name="view_id"></field>
     </record>
 
-    <menuitem id="menu_disponibilidad_resumen_report" name="Reporte isponibilidad" parent="account.menu_finance_reports" action="action_disponibilidad_resumen_report"/>
+    <menuitem id="menu_disponibilidad_resumen_report" name="Reporte disponibilidad" parent="account.menu_finance_reports" action="action_disponibilidad_resumen_report"/>
 </odoo>
