@@ -4,7 +4,7 @@
         <field name="name">conciliacion_bancaria.disponibilidad_resumen.pivot</field>
         <field name="model">conciliacion_bancaria.disponibilidad_resumen.report</field>
         <field name="arch" type="xml">
-            <pivot string="Reporte Disponibilidad Resumen" disable_linking="True">
+            <pivot string="Reporte disponibilidad" disable_linking="True">
                 <field name="cuenta_id" type="row"/>
                 <field name="saldo" type="measure"/>
                 <field name="debe_sin_conciliar" type="measure"/>
