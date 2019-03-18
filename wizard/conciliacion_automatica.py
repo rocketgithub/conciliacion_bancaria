@@ -107,3 +107,21 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
             'type': 'ir.actions.act_window',
             'target': 'new',
         }
+
+
+class ConciliacionAutomaticaPendientesWizard(models.TransientModel):
+    _name = 'conciliacion_bancaria.pendientes_excel.wizard'
+
+    fecha = fields.Date('Fecha conciliación')
+
+    @api.multi
+    def conciliar(self):
+        logging.getLogger('IDs').warn(self.env.context.get('active_ids', []))
+        for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('id', 'in', self.env.context.get('active_ids', []))]):
+            move_line = self.env['account.move.line'].search([('account_id', '=', linea_pendiente.account_id.id), ('ref', '=', linea_pendiente.numero_documento)])
+            if move_line:
+                if linea_pendiente.monto == move_line[0].debit - move_line[0].credit:
+                    self.env['conciliacion_bancaria.fecha'].create({'move_id': move_line.id, 'fecha': self.fecha})
+                    linea_pendiente.unlink()
+
+        return {'type': 'ir.actions.act_window_close'}
