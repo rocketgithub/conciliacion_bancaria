@@ -16,6 +16,7 @@
                         <group>
                             <field name="fecha_desde"/>
                             <field name="fecha_hasta"/>
+                            <field name="saldo_banco"/>
                         </group>
                     </group>
                     <footer>

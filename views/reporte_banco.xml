@@ -15,7 +15,7 @@
                             <strong>Fecha final: </strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
                         </div>
                     </div>
-
+                    <t t-set="balance_final" t-value="0"/>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -69,6 +69,18 @@
                                 <td class="text-right">
                                     <span t-esc="l['balance']" t-esc-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                 </td>
+                                <t t-set="balance_final" t-value="l['balance']"/>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>Saldo banco:</b></td>
+                                <td class="text-right"><span t-esc="data['saldo_banco']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <t t-set="diferencia" t-value="data['saldo_banco'] - balance_final"/>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>Diferencia saldos: </b></td>
+                                <td class="text-right"><span t-esc="diferencia" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                             </tr>
                         </tbody>
                     </table>
