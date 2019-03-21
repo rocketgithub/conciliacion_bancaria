@@ -15,7 +15,8 @@
                             <strong>Fecha final: </strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
                         </div>
                     </div>
-
+                    <t t-set="movimiento" t-value="movimientos_pendientes(data)"/>
+                    <t t-set="balance_final" t-value="0"/>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -69,6 +70,39 @@
                                 <td class="text-right">
                                     <span t-esc="l['balance']" t-esc-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                 </td>
+                                <t t-set="balance_final" t-value="l['balance']"/>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>(+) Saldo conciliado</b></td>
+                                <td class="text-right"><span t-esc="balance_final" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>(+) Movimientos no operados</b></td>
+                                <td class="text-right"><span t-esc="movimiento['movimientos_positivos']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>(-) Movimientos no operados</b></td>
+                                <td class="text-right"><span t-esc="movimiento['movimientos_negativos']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <t t-set="total" t-value="balance_final + movimiento['movimientos_positivos'] + movimiento['movimientos_negativos']"/>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>(=) Total</b></td>
+                                <td class="text-right"><span t-esc="total" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>(-) Saldo ingresado</b></td>
+                                <td class="text-right"><span t-esc="data['saldo_banco']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <t t-set="diferencia" t-value="total - data['saldo_banco']"/>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td class="text-right"><b>(=) Diferencia</b></td>
+                                <td class="text-right"><span t-esc="diferencia" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                             </tr>
                         </tbody>
                     </table>
