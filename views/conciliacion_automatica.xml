@@ -6,7 +6,7 @@
             <field name="name">conciliacion_bancaria.pendientes_excel.tree</field>
             <field name="model">conciliacion_bancaria.pendientes_excel</field>
             <field name="arch" type="xml">
-                <tree string="Pendientes">
+                <tree string="Movimientos bancarios no encontrados">
                     <field name="fecha"/>
                     <field name="account_id"/>
                     <field name="tipo_documento"/>
@@ -17,7 +17,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="conciliacion_bancaria_pendientes_excel_action">
-            <field name="name">Pendinetes Excel</field>
+            <field name="name">Movimientos bancarios no encontrados</field>
             <field name="res_model">conciliacion_bancaria.pendientes_excel</field>
             <field name="view_mode">tree,form</field>
         </record>
