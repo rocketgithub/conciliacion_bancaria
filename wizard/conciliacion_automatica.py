@@ -124,8 +124,8 @@ class ConciliacionAutomaticaPendientesWizard(models.TransientModel):
                 logging.getLogger('move_line[0].debit').warn(move_line[0].debit)
                 logging.getLogger('move_line[0].credit').warn(move_line[0].credit)
                 if linea_pendiente.monto == move_line[0].debit - move_line[0].credit:
-                    logging.getLogger('move_line.id').warn(move_line.id)
-                    logging.getLogger('self.fecha').warn(self.fecha)
+#                    logging.getLogger('move_line[0].id').warn(move_line[0].id)
+#                    logging.getLogger('self.fecha').warn(self.fecha)
                     conciliado = self.env['conciliacion_bancaria.fecha'].search([('move_id', '=', move_line[0].id)])
                     if not conciliado:
                         self.env['conciliacion_bancaria.fecha'].create({'move_id': move_line[0].id, 'fecha': self.fecha})
