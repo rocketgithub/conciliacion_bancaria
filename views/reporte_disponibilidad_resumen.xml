@@ -12,6 +12,7 @@
                 <field name="saldo_conciliado" type="measure"/>
                 <field name="creditos_no_encontrados" type="measure"/>
                 <field name="debitos_no_encontrados" type="measure"/>
+                <field name="saldo_banco" type="measure"/>
             </pivot>
         </field>
     </record>
