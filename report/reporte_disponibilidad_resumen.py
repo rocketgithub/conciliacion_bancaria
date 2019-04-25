@@ -30,7 +30,7 @@ class DisponibilidadResumenReporte(models.Model):
                     sum(creditos_no_encontrados) as creditos_no_encontrados,
                     sum(abs(debitos_no_encontrados)) as debitos_no_encontrados,
                     sum(saldo_conciliado + debe_sin_conciliar - haber_sin_conciliar) as saldo,
-                    sum(saldo_conciliado + debe_sin_conciliar - haber_sin_conciliar + creditos_no_encontrados - debitos_no_encontrados) as saldo_banco
+                    sum(saldo_conciliado + creditos_no_encontrados - debitos_no_encontrados) as saldo_banco
                 from (
                     select l.id as id,
                         l.account_id as cuenta_id,
