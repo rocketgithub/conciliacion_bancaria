@@ -16,6 +16,7 @@ class DisponibilidadResumenReporte(models.Model):
     debitos_no_encontrados = fields.Float(string='Debitos no encontrados', readonly=True)
     saldo = fields.Float(string='Saldo', readonly=True)
     saldo_banco = fields.Float(string='Saldo banco', readonly=True)
+    saldo_disponible = fields.Float(string='Saldo disponible', readonly=True)
 
     @api.model_cr
     def init(self):
@@ -30,7 +31,8 @@ class DisponibilidadResumenReporte(models.Model):
                     sum(creditos_no_encontrados) as creditos_no_encontrados,
                     sum(abs(debitos_no_encontrados)) as debitos_no_encontrados,
                     sum(saldo_conciliado + debe_sin_conciliar - haber_sin_conciliar) as saldo,
-                    sum(saldo_conciliado + creditos_no_encontrados + debitos_no_encontrados) as saldo_banco
+                    sum(saldo_conciliado + creditos_no_encontrados + debitos_no_encontrados) as saldo_banco,
+                    sum(saldo_conciliado + debe_sin_conciliar - haber_sin_conciliar + creditos_no_encontrados + debitos_no_encontrados) as saldo_disponible
                 from (
                     select l.id as id,
                         l.account_id as cuenta_id,
