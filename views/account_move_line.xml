@@ -9,9 +9,8 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <data>
-                    <filter icon="terp-dolar_ok!" string="Unreconciled" position="after">
-                        <filter icon="terp-document-new" string="Unposted" domain="[('move_id.state','=','draft')]" help="Unposted Journal Items"/>
-                        <filter icon="terp-document-new" name="conciliado_banco" string="No conciliado con banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco"/>
+                    <filter name="unreconciled" position="after">
+                        <filter string="No conciliado con banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco" name="conciliado_banco"/>
                     </filter>
                 </data>
             </field>

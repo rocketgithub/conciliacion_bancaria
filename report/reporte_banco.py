@@ -20,7 +20,7 @@ class ReporteBanco(models.AbstractModel):
                 'fecha': linea.date,
                 'documento': linea.move_id.name if linea.move_id else '',
                 'nombre': linea.partner_id.name or '',
-                'concepto': (linea.ref if linea.ref else '')+linea.name,
+                'concepto': (linea.ref if linea.ref else '') + (linea.name if linea.name else ''),
                 'debito': linea.debit,
                 'credito': linea.credit,
                 'balance': 0,
@@ -56,10 +56,24 @@ class ReporteBanco(models.AbstractModel):
         self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line l left join conciliacion_bancaria_fecha f on (l.id = f.move_id) where account_id = %s and fecha < %s', (datos['cuenta_bancaria_id'][0], datos['fecha_desde']))
         return self.env.cr.dictfetchall()[0]
 
+    def movimientos_pendientes(self,datos):
+        movimientos = self.env['conciliacion_bancaria.pendientes_excel'].search([('fecha', '<', datos['fecha_hasta']), ('fecha', '>', datos['fecha_desde']),('account_id', '=', datos['cuenta_bancaria_id'][0])])
+        positivos = 0
+        negativos = 0
+        for movimiento in movimientos:
+            if movimiento.monto > 0:
+                positivos += movimiento.monto
+            else:
+                negativos += movimiento.monto
+        return {'movimientos_positivos': positivos, 'movimientos_negativos': negativos}
+
+
     @api.model
     def render_html(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_ids', []))
+
+        # diario = self.env['account.journal'].browse(data['form']['diarios_id'][0])
 
         docargs = {
             'doc_ids': self.ids,
@@ -69,5 +83,6 @@ class ReporteBanco(models.AbstractModel):
             'moneda': docs[0].cuenta_bancaria_id.currency_id or self.env.user.company_id.currency_id,
             'lineas': self.lineas,
             'balance_inicial': self.balance_inicial(data['form']),
+            'movimientos_pendientes': self.movimientos_pendientes,
         }
         return self.env['report'].render('conciliacion_bancaria.reporte_banco', docargs)

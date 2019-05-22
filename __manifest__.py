@@ -14,13 +14,16 @@
     'author': 'Rodrigo Fernandez',
     'website': 'http://solucionesprisma.com/',
     'depends' : [ 'account', 'l10n_gt' ],
-    'init_xml' : [ ],
-    'demo_xml' : [ ],
-    'update_xml' : [
-        'account_move_line.xml',
-        'conciliar.xml',
-        'reportes.xml'
+    'data' : [
+        'views/account_move_line.xml',
+        'views/reporte_banco.xml',
+        'wizard/conciliar.xml',
+        'views/conciliacion_automatica.xml',
+        'views/reporte_disponibilidad_resumen.xml',
+        'wizard/conciliacion_automatica.xml',
+        'security/ir.model.access.csv',
+        'views/report.xml',
+
     ],
     'installable': True,
-    'certificate': '',
 }
