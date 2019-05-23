@@ -13,7 +13,7 @@ class ReporteBanco(models.AbstractModel):
         if conciliadas:
             query = [('conciliado_banco','!=',False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
         else:
-            query = [('conciliado_banco','=',False), ('account_id','=',datos['cuenta_bancaria_id'][0])]
+            query = [('conciliado_banco','=',False), ('account_id','=',datos['cuenta_bancaria_id'][0], ('date','<=',datos['fecha_hasta']))]
 
         for linea in self.env['account.move.line'].search(query, order='date'):
             detalle = {
