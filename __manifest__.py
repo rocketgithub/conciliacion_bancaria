@@ -19,7 +19,7 @@
         'views/reporte_banco.xml',
         'wizard/conciliar.xml',
         'views/conciliacion_automatica.xml',
-        'views/reporte_disponibilidad_resumen.xml',
+        #'views/reporte_disponibilidad_resumen.xml',
         'wizard/conciliacion_automatica.xml',
         'security/ir.model.access.csv',
         'views/report.xml',
