@@ -243,7 +243,7 @@
           <para style="P1"></para>
         </td>
         <td>
-          <para style="P1" alignment="RIGHT">[[ formatLang(balance_final(o)['balance']-totales_circulacion['debito']+totales_circulacion['credito']) ]]</para>
+          <para style="P1" alignment="RIGHT">[[ formatLang(balance_final(o)['balance']+totales_circulacion['debito']-totales_circulacion['credito']) ]]</para>
         </td>
       </tr>
     </blockTable>
