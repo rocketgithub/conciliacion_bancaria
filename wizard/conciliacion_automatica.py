@@ -48,24 +48,18 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
                 if self.es_numero(numero_documento):
                     numero_documento = str(int(numero_documento))
 
-                logging.warn(sheet.cell(x, 2).value)
-#                llave = str(fecha) + '*' + str(numero_documento)
                 llave = str(numero_documento) + '*' + str(self.account_id.id)
-                logging.getLogger('Llave').warn(llave)
                 dict[llave] = {}
                 dict[llave]['fecha'] = str(fecha)
                 dict[llave]['tipo_documento'] = sheet.cell(x, 1).value
                 dict[llave]['monto'] = float(sheet.cell(x, 3).value)
-        logging.getLogger('DICCIONARIO').warn(dict)
         lineas = self.env['account.move.line'].search([('account_id', '=', self.account_id.id)])
         m2m_ids = []
         pendientes_excel_obj = self.env['conciliacion_bancaria.pendientes_excel']
         #Reviso si cada linea del account.move.line coincide con alguna llave del diccionario.
         #Si coincide, se hace conciliacion, de lo contrario se agrega la linea al m2m de lineas que no hicieron match.
         for linea in lineas:
-#            llave = str(linea.date) + '*' + str(linea.ref)
-            llave = str(linea.ref) + '*' + str(linea.account_id.id)
-            logging.getLogger('LLAVE').warn(llave)
+            llave = unicode(linea.ref) + '*' + unicode(linea.account_id.id)
             saldo = linea.debit - linea.credit
             if llave in dict and dict[llave]['monto'] == saldo and not linea.conciliado_banco:
                 self.env['conciliacion_bancaria.fecha'].create({'move_id': linea.id, 'fecha': self.fecha})
@@ -81,10 +75,8 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
         o2m_ids = []
         #El diccionario con las llaves que no fueron borradas las agrego al o2m, y si no existe la linea en el objeto de pendientes
         #de excel, agrego esa linea al objeto.
-        logging.warn('HOLA')
         for llave in dict:
             campos = llave.split('*')
-#            logging.warn(campos)
             o2m_ids.append((0, 0, {'conciliacion_automatica_id': self.id, 'fecha': dict[llave]['fecha'], 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento':campos[0], 'monto': dict[llave]['monto']}))
             if not pendientes_excel_obj._existe_registro(campos[0], campos[1]):
                 pendientes_excel_obj.create({'fecha': dict[llave]['fecha'], 'account_id': self.account_id.id, 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento': campos[0], 'monto': dict[llave]['monto']})
@@ -116,7 +108,6 @@ class ConciliacionAutomaticaPendientesWizard(models.TransientModel):
 
     @api.multi
     def conciliar(self):
-        logging.getLogger('IDs').warn(self.env.context.get('active_ids', []))
         for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('id', 'in', self.env.context.get('active_ids', []))]):
             move_line = self.env['account.move.line'].search([('account_id', '=', linea_pendiente.account_id.id), ('ref', '=', linea_pendiente.numero_documento)])
             if move_line:
