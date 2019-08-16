@@ -59,7 +59,7 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
         #Reviso si cada linea del account.move.line coincide con alguna llave del diccionario.
         #Si coincide, se hace conciliacion, de lo contrario se agrega la linea al m2m de lineas que no hicieron match.
         for linea in lineas:
-            llave = unicode(linea.ref) + '*' + unicode(linea.account_id.id)
+            llave = str(linea.ref) + '*' + str(linea.account_id.id)
             saldo = linea.debit - linea.credit
             if llave in dict and dict[llave]['monto'] == saldo and not linea.conciliado_banco:
                 self.env['conciliacion_bancaria.fecha'].create({'move_id': linea.id, 'fecha': self.fecha})
