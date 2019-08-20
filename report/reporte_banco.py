@@ -15,7 +15,7 @@ class ReporteBanco(models.AbstractModel):
         if conciliadas:
             query = [('conciliado_banco','!=',False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
         else:
-            query = [('conciliado_banco','=',False), ('account_id','=',datos['cuenta_bancaria_id'][0])]
+            query = [('conciliado_banco','=',False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('date','<=',datos['fecha_hasta'])]
 
         for linea in self.env['account.move.line'].search(query, order='date'):
             detalle = {
@@ -56,6 +56,21 @@ class ReporteBanco(models.AbstractModel):
         self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line l left join conciliacion_bancaria_fecha f on (l.id = f.move_id) where account_id = %s and fecha < %s', (datos['cuenta_bancaria_id'][0], datos['fecha_desde']))
         return self.env.cr.dictfetchall()[0]
 
+    def movimientos_pendientes(self,datos):
+        movimientos = self.env['conciliacion_bancaria.pendientes_excel'].search([('fecha', '<', datos['fecha_hasta']), ('fecha', '>', datos['fecha_desde']),('account_id', '=', datos['cuenta_bancaria_id'][0])])
+        positivos = 0
+        negativos = 0
+        for movimiento in movimientos:
+            if movimiento.monto > 0:
+                positivos += movimiento.monto
+            else:
+                negativos += movimiento.monto
+        return {'movimientos_positivos': positivos, 'movimientos_negativos': negativos}
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        return self.get_report_values(docids, data)
+
     @api.model
     def get_report_values(self, docids, data=None):
         model = self.env.context.get('active_model')
@@ -68,7 +83,8 @@ class ReporteBanco(models.AbstractModel):
             'docs': docs,
             'moneda': docs[0].cuenta_bancaria_id.currency_id or self.env.user.company_id.currency_id,
             'lineas': self.lineas,
-            'balance_inicial': self.balance_inicial(data['form'])['balance_moneda'] if docs[0].cuenta_bancaria_id.currency_id and docs[0].cuenta_bancaria_id.currency_id.id != docs[0].cuenta_bancaria_id.company_id.currency_id.id else self.balance_inicial(data['form'])['balance_moneda'],
+            'balance_inicial': self.balance_inicial(data['form'])['balance_moneda'] if docs[0].cuenta_bancaria_id.currency_id and docs[0].cuenta_bancaria_id.currency_id.id != docs[0].cuenta_bancaria_id.company_id.currency_id.id else self.balance_inicial(data['form'])['balance'],
+            'movimientos_pendientes': self.movimientos_pendientes,
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
