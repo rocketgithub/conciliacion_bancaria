@@ -44,7 +44,7 @@
                                 <td class="text-right">
                                 </td>
                                 <td class="text-right">
-                                    <span t-esc="balance_inicial['balance_moneda'] or balance_inicial['balance']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/>
+                                    <span t-esc="balance_inicial" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                 </td>
                             </tr>
                             <tr t-foreach="lineas(True, data)" t-as="l">

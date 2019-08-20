@@ -9,6 +9,8 @@ class ReporteBanco(models.AbstractModel):
     def lineas(self, conciliadas, datos):
         lineas = []
 
+        cuenta = self.env['account.account'].browse(datos['cuenta_bancaria_id'][0])
+
         query = None
         if conciliadas:
             query = [('conciliado_banco','!=',False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
@@ -38,12 +40,10 @@ class ReporteBanco(models.AbstractModel):
             lineas.append(detalle)
 
         balance_inicial = self.balance_inicial(datos)
-        if balance_inicial['balance_moneda']:
+        if cuenta.currency_id and cuenta.currency_id.id != cuenta.company_id.currency_id.id:
             balance = balance_inicial['balance_moneda']
-        elif balance_inicial['balance']:
-            balance = balance_inicial['balance']
         else:
-            balance = 0
+            balance = balance_inicial['balance']
 
         for linea in lineas:
 
@@ -68,7 +68,7 @@ class ReporteBanco(models.AbstractModel):
             'docs': docs,
             'moneda': docs[0].cuenta_bancaria_id.currency_id or self.env.user.company_id.currency_id,
             'lineas': self.lineas,
-            'balance_inicial': self.balance_inicial(data['form']),
+            'balance_inicial': self.balance_inicial(data['form'])['balance_moneda'] if docs[0].cuenta_bancaria_id.currency_id and docs[0].cuenta_bancaria_id.currency_id.id != docs[0].cuenta_bancaria_id.company_id.currency_id.id else self.balance_inicial(data['form'])['balance_moneda'],
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

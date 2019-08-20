@@ -13,16 +13,26 @@ class Conciliar(models.TransientModel):
     def conciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                if rec.fecha:
+                lock_date = max(line.company_id.period_lock_date or '0000-00-00', line.company_id.fiscalyear_lock_date or '0000-00-00')
+                if self.user_has_groups('account.group_account_manager'):
+                    lock_date = line.company_id.fiscalyear_lock_date
+                if rec.fecha and rec.fecha > (lock_date or '0000-00-00'):
                     self.env['conciliacion_bancaria.fecha'].create({
                         'move_id': line.id,
                         'fecha': rec.fecha
                     })
+                else:
+                    raise UserError("La fecha ingresada es anterior a lo permitido en la configuración contable.")
         return {'type': 'ir.actions.act_window_close'}
 
     def desconciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                conciliados = self.env['conciliacion_bancaria.fecha'].search([('move_id','=',line.id)])
-                conciliados.unlink()
+                lock_date = max(line.company_id.period_lock_date or '0000-00-00', line.company_id.fiscalyear_lock_date or '0000-00-00')
+                if self.user_has_groups('account.group_account_manager'):
+                    lock_date = line.company_id.fiscalyear_lock_date
+                if line.conciliado_banco and line.conciliado_banco.fecha > (lock_date or '0000-00-00'):
+                    conciliados = self.env['conciliacion_bancaria.fecha'].search([('move_id','=',line.id)]).unlink()
+                else:
+                    raise UserError("La fecha conciliada es anterior a lo permitido en la configuración contable.")
         return {'type': 'ir.actions.act_window_close'}
