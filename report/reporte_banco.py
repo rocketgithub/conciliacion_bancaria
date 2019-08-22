@@ -75,7 +75,7 @@ class ReporteBanco(models.AbstractModel):
     def get_report_values(self, docids, data=None):
         model = self.env.context.get('active_model')
         docs = self.env[model].browse(self.env.context.get('active_ids', []))
-
+        
         return {
             'doc_ids': self.ids,
             'doc_model': model,
