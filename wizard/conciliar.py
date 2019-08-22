@@ -2,6 +2,7 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import UserError, ValidationError
+import logging
 
 class Conciliar(models.TransientModel):
     _name = "conciliacion_bancaria.conciliar"
@@ -34,5 +35,5 @@ class Conciliar(models.TransientModel):
                 if line.conciliado_banco and line.conciliado_banco.fecha > (lock_date or '0000-00-00'):
                     conciliados = self.env['conciliacion_bancaria.fecha'].search([('move_id','=',line.id)]).unlink()
                 else:
-                    raise UserError("La fecha conciliada es anterior a lo permitido en la configuración contable.")
+                    raise UserError("El movimiento no está conciliado o a fecha conciliada es anterior a lo permitido en la configuración contable.")
         return {'type': 'ir.actions.act_window_close'}
