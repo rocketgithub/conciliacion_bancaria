@@ -23,7 +23,7 @@ class Conciliar(models.TransientModel):
                         'fecha': rec.fecha
                     })
 
-                    for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('account_id', '=', line.account_id), ('numero_documento', '=', line.ref)]):
+                    for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('account_id', '=', line.account_id.id), ('numero_documento', '=', line.ref)]):
                         if linea_pendiente.monto == line.debit - line.credit:
                             linea_pendiente.unlink()
 
