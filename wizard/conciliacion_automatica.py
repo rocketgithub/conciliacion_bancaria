@@ -40,7 +40,12 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
         #En ese ciclo se construye el diccionario con la informacion del archivo de excel.
         for x in xrange(sheet.nrows):
             if x != 0:
-                fecha = datetime.datetime(xlrd.xldate.xldate_as_datetime(sheet.cell(x, 0).value, workbook.datemode))
+                logging.warn(sheet.cell(x, 0).value)
+                logging.warn(sheet.cell(x, 1).value)
+                logging.warn(sheet.cell(x, 2).value)
+                logging.warn(sheet.cell(x, 3).value)
+                fecha = datetime.datetime(*xlrd.xldate_as_tuple(sheet.cell(x, 0).value, workbook.datemode))
+#                fecha = datetime.datetime(xlrd.xldate.xldate_as_datetime(sheet.cell(x, 0).value, workbook.datemode))
                 fecha = fecha.strftime("%Y-%m-%d")
                 tipo_documento = sheet.cell(x, 1).value
                 numero_documento = sheet.cell(x, 2).value

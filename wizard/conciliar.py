@@ -22,6 +22,11 @@ class Conciliar(models.TransientModel):
                         'move_id': line.id,
                         'fecha': rec.fecha
                     })
+
+                    for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('account_id', '=', line.account_id), ('numero_documento', '=', line.ref)]):
+                        if linea_pendiente.monto == line.debit - line.credit:
+                            linea_pendiente.unlink()
+
                 else:
                     raise UserError("La fecha ingresada es anterior a lo permitido en la configuración contable.")
         return {'type': 'ir.actions.act_window_close'}
