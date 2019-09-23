@@ -14,6 +14,7 @@ class ConciliacionAutomaticaExcel(models.TransientModel):
     tipo_documento = fields.Char('Tipo doc.')
     numero_documento = fields.Char('No. doc.')
     monto = fields.Char('Monto')
+    tipo_movimiento = fields.Char('Tipo mov.')
 
 class ConciliacionAutomaticaWizard(models.TransientModel):
     _name = 'conciliacion_bancaria.wizard'
@@ -58,6 +59,7 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
                 dict[llave]['fecha'] = str(fecha)
                 dict[llave]['tipo_documento'] = sheet.cell(x, 1).value
                 dict[llave]['monto'] = float(sheet.cell(x, 3).value)
+                dict[llave]['tipo_movimiento'] = sheet.cell(x, 4).value
         lineas = self.env['account.move.line'].search([('account_id', '=', self.account_id.id)])
         m2m_ids = []
         pendientes_excel_obj = self.env['conciliacion_bancaria.pendientes_excel']
@@ -82,9 +84,9 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
         #de excel, agrego esa linea al objeto.
         for llave in dict:
             campos = llave.split('*')
-            o2m_ids.append((0, 0, {'conciliacion_automatica_id': self.id, 'fecha': dict[llave]['fecha'], 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento':campos[0], 'monto': dict[llave]['monto']}))
+            o2m_ids.append((0, 0, {'conciliacion_automatica_id': self.id, 'fecha': dict[llave]['fecha'], 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento':campos[0], 'monto': dict[llave]['monto'], 'tipo_movimiento': dict[llave]['tipo_movimiento']}))
             if not pendientes_excel_obj._existe_registro(campos[0], campos[1]):
-                pendientes_excel_obj.create({'fecha': dict[llave]['fecha'], 'account_id': self.account_id.id, 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento': campos[0], 'monto': dict[llave]['monto']})
+                pendientes_excel_obj.create({'fecha': dict[llave]['fecha'], 'account_id': self.account_id.id, 'tipo_documento': dict[llave]['tipo_documento'], 'numero_documento': campos[0], 'monto': dict[llave]['monto'], 'tipo_movimiento': dict[llave]['tipo_movimiento']})
 
         actualizar = {}
         if o2m_ids:

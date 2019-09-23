@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="reporte_banco_resumido">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <t t-set="reporte" t-value="reporte(docs)"/>
+                    <h3 class="text-center">REPORTE DE CONCILIACION BANCARIA</h3>
+                    <br/>
+                    <br/>
+                    <table style="font-size: 90%;margin:0px auto 0px auto;width:400px">
+                        <tr>
+                            <td><b>Cuenta bancaria:</b></td>
+                            <td><span t-esc="reporte['encabezado']['cuenta']['code']"/> <span t-esc="reporte['encabezado']['cuenta']['name']"/></td>
+                            <td><b>Moneda:</b></td>
+                            <td><span t-esc="reporte['encabezado']['moneda']['name']"/></td>
+                        </tr>
+                        <tr>
+                            <td><b>Desde:</b></td>
+                            <td><span t-esc="reporte['encabezado']['fecha_desde']"/></td>
+                            <td><b>Hasta</b></td>
+                            <td><span t-esc="reporte['encabezado']['fecha_hasta']"/></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <span style="font-size: 90%">RESUMEN DE CONCILIACION</span>
+                    <br/>
+                    <br/>
+                    <table style="font-size: 90%;margin:0px auto 0px auto;width:700px">
+                        <tbody>
+                            <tr>
+                                <td style="width:200px"><b>Saldo Final Banco</b></td>
+                                <td style="width:125px" class="text-right"><span t-esc="data['saldo_banco']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td style="width:50px"></td>
+                                <td style="width:200px"><b>Saldo Final Compañía</b></td>
+                                <td style="width:125px" class="text-right"><span t-esc="balance_inicial" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                            </tr>
+                            <tr>
+                                <td><b>- Ck. y Tr. Pend.Cambio</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['ck_tr_pend_cambio']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td></td>
+                                <td><b>- Ck.y Tr.Pend.Registro</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['ck_tr_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                            </tr>
+                            <tr>
+                                <td><b>+ Dep.en Tránsito</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['dep_transito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td></td>
+                                <td><b>+ Dep.Pend.Registro</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['dep_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                            </tr>
+                            <tr>
+                                <td><b>+ Deb.Registrados de Más</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['deb_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td></td>
+                                <td><b>+ Deb.Pend.Registro</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['deb_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                            </tr>
+                            <tr>
+                                <td><b>- Cred.Registrados de Más</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['cred_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td></td>
+                                <td><b>- Cred.Pend.Registro</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['cred_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="background-color:#000000; height:1px"></td>
+                                <td></td>
+                                <td></td>
+                                <td style="background-color:#000000; height:1px"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Saldo Conciliado Banco</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['saldo_conciliado_banco']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td></td>
+                                <td><b>Saldo Conciliado Compañía</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['saldo_conciliado_compania']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="background-color:#000000; height:1px"></td>
+                                <td></td>
+                                <td></td>
+                                <td style="background-color:#000000; height:1px"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <span style="font-size: 90%">DETALLE DE DOCUMENTOS NO CONCILIADOS</span>
+                    <br/>
+                    <t t-if="reporte['resumen']['ck_tr_pend_cambio'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Cheques en circulación</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['cheque']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Doc</th>
+                                    <th>Nombre</th>
+                                    <th>Concepto</th>
+                                    <th class="text-right">Credito</th>
+                                    <th class="text-right">Debito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['nombre']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['concepto']"/>
+                                    </td>
+                                    <td class="text-right">
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['ck_tr_pend_cambio']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['dep_transito'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Depósitos en circulación</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['deposito']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Doc</th>
+                                    <th>Nombre</th>
+                                    <th>Concepto</th>
+                                    <th class="text-right">Credito</th>
+                                    <th class="text-right">Debito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['nombre']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['concepto']"/>
+                                    </td>
+                                    <td class="text-right">
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['dep_transito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['deb_registrados_mas'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Notas de débito en circulación</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['nota_debito']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Doc</th>
+                                    <th>Nombre</th>
+                                    <th>Concepto</th>
+                                    <th class="text-right">Credito</th>
+                                    <th class="text-right">Debito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['nombre']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['concepto']"/>
+                                    </td>
+                                    <td class="text-right">
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['deb_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['cred_registrados_mas'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Notas de crédito en circulación</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['nota_credito']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Doc</th>
+                                    <th>Nombre</th>
+                                    <th>Concepto</th>
+                                    <th class="text-right">Credito</th>
+                                    <th class="text-right">Debito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['nombre']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['concepto']"/>
+                                    </td>
+                                    <td class="text-right">
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['cred_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['ck_tr_pend_registro'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Cheques pendientes de registro</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['pendientes_cheque']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo documento</th>
+                                    <th>Numero documento</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['tipo_documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['numero_documento']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['monto']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['ck_tr_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['dep_pend_registro'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Depósitos pendientes de registro</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['pendientes_deposito']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo documento</th>
+                                    <th>Numero documento</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['tipo_documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['numero_documento']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['monto']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['dep_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['deb_pend_registro'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Notas de débito pendientes de registro</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['pendientes_nota_debito']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo documento</th>
+                                    <th>Numero documento</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['tipo_documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['numero_documento']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['monto']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['deb_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                    <t t-if="reporte['resumen']['cred_pend_registro'] != 0">
+                        <br/>
+                        <span style="font-size: 90%">Notas de crédito pendientes de registro</span>
+                        <br/>
+                        <br/>
+                        <t t-set="lineas" t-value="reporte['lineas']['pendientes_nota_credito']"/>
+                        <table style="font-size: 90%;margin:0px auto 0px auto;width:800px">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo documento</th>
+                                    <th>Numero documento</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lineas" t-as="l">
+                                    <td>
+                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['tipo_documento']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="l['numero_documento']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="l['monto']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span style="font-size: 90%">Total: </span><span style="font-size: 90%" t-esc="reporte['resumen']['cred_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                        <br/>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -9,9 +9,11 @@
     'website': 'http://solucionesprisma.com/',
     'depends' : [ 'account' ],
     'data' : [
+        'views/account_views.xml',
         'views/account_move_line.xml',
         'views/report.xml',
         'views/reporte_banco.xml',
+        'views/reporte_banco_resumido.xml',
         'views/reporte_disponibilidad_resumen.xml',
         'views/conciliacion_automatica.xml',
         'wizard/conciliar.xml',
