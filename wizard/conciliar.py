@@ -14,10 +14,13 @@ class Conciliar(models.TransientModel):
     def conciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                lock_date = max(line.company_id.period_lock_date or '0000-00-00', line.company_id.fiscalyear_lock_date or '0000-00-00')
+                lock_date = max(str(line.company_id.period_lock_date or '0000-00-00'), str(line.company_id.fiscalyear_lock_date or '0000-00-00'))
                 if self.user_has_groups('account.group_account_manager'):
-                    lock_date = line.company_id.fiscalyear_lock_date
-                if rec.fecha and str(rec.fecha) > (str(lock_date) or '0000-00-00'):
+                    lock_date = str(line.company_id.fiscalyear_lock_date or '0000-00-00')
+
+                logging.getLogger('conciliacion_bancaria_lock_date').warn(lock_date)
+                logging.getLogger('conciliacion_bancaria_rec_fecha').warn(rec.fecha)
+                if rec.fecha and lock_date < str(rec.fecha):
                     self.env['conciliacion_bancaria.fecha'].create({
                         'move_id': line.id,
                         'fecha': rec.fecha
@@ -26,7 +29,6 @@ class Conciliar(models.TransientModel):
                     for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('account_id', '=', line.account_id.id), ('numero_documento', '=', line.ref)]):
                         if linea_pendiente.monto == line.debit - line.credit:
                             linea_pendiente.unlink()
-
                 else:
                     raise UserError("La fecha ingresada es anterior a lo permitido en la configuración contable.")
         return {'type': 'ir.actions.act_window_close'}
@@ -34,11 +36,14 @@ class Conciliar(models.TransientModel):
     def desconciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                lock_date = max(line.company_id.period_lock_date or '0000-00-00', line.company_id.fiscalyear_lock_date or '0000-00-00')
+                lock_date = max(str(line.company_id.period_lock_date or '0000-00-00'), str(line.company_id.fiscalyear_lock_date or '0000-00-00'))
                 if self.user_has_groups('account.group_account_manager'):
-                    lock_date = line.company_id.fiscalyear_lock_date
-                if line.conciliado_banco and str(line.conciliado_banco.fecha) > (str(lock_date) or '0000-00-00'):
+                    lock_date = str(line.company_id.fiscalyear_lock_date or '0000-00-00')
+
+                logging.getLogger('conciliacion_bancaria_lock_date').warn(lock_date)
+                logging.getLogger('conciliacion_bancaria_line_conciliado_banco_fecha').warn(line.conciliado_banco.fecha)
+                if line.conciliado_banco and lock_date < str(line.conciliado_banco.fecha):
                     conciliados = self.env['conciliacion_bancaria.fecha'].search([('move_id','=',line.id)]).unlink()
                 else:
-                    raise UserError("El movimiento no está conciliado o a fecha conciliada es anterior a lo permitido en la configuración contable.")
+                    raise UserError("El movimiento no está conciliado ó la fecha conciliada es anterior a lo permitido en la configuración contable.")
         return {'type': 'ir.actions.act_window_close'}
