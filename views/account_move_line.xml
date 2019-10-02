@@ -10,7 +10,8 @@
             <field name="arch" type="xml">
                 <data>
                     <filter name="unreconciled" position="after">
-                        <filter string="No conciliado con banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco" name="conciliado_banco"/>
+                        <filter string="No conciliado con banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco" name="no_conciliado_banco"/>
+                        <filter string="Conciliado con banco" domain="[('conciliado_banco','!=',False)]" help="Apuntes que han sido conciliados con el banco" name="si_conciliado_banco"/>
                     </filter>
                 </data>
             </field>
