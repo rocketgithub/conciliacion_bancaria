@@ -33,7 +33,7 @@
                                 <td style="width:125px" class="text-right"><span t-esc="data['saldo_banco']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td style="width:50px"></td>
                                 <td style="width:200px"><b>Saldo Final Compañía</b></td>
-                                <td style="width:125px" class="text-right"><span t-esc="balance_inicial" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
+                                <td style="width:125px" class="text-right"><span t-esc="reporte['resumen']['balance_final']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
                                 <td><b>- Ck. y Tr. Pend.Cambio</b></td>
@@ -109,7 +109,7 @@
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['documento']"/>
@@ -152,7 +152,7 @@
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['documento']"/>
@@ -195,7 +195,7 @@
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['documento']"/>
@@ -238,7 +238,7 @@
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['documento']"/>
@@ -273,13 +273,13 @@
                                     <th>Fecha</th>
                                     <th>Tipo documento</th>
                                     <th>Numero documento</th>
-                                    <th>Monto</th>
+                                    <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['tipo_documento']"/>
@@ -308,13 +308,13 @@
                                     <th>Fecha</th>
                                     <th>Tipo documento</th>
                                     <th>Numero documento</th>
-                                    <th>Monto</th>
+                                    <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['tipo_documento']"/>
@@ -343,13 +343,13 @@
                                     <th>Fecha</th>
                                     <th>Tipo documento</th>
                                     <th>Numero documento</th>
-                                    <th>Monto</th>
+                                    <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['tipo_documento']"/>
@@ -378,13 +378,13 @@
                                     <th>Fecha</th>
                                     <th>Tipo documento</th>
                                     <th>Numero documento</th>
-                                    <th>Monto</th>
+                                    <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="lineas" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['tipo_documento']"/>
