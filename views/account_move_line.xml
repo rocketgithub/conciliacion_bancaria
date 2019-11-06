@@ -17,5 +17,16 @@
             </field>
         </record>
 
+        <record id="conciliacion_bancaria_view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="date_maturity" position="after">
+                    <field name="fecha_conciliacion"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>

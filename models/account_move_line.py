@@ -1,11 +1,23 @@
 # -*- encoding: utf-8 -*-
 
 from openerp import models, fields, api, _
+import logging
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
+    def _fecha_conciliacion(self):
+        for line in self:
+            logging.getLogger('SELF').warn(line)
+            logging.getLogger('SELF.CONCILIADO').warn(line.conciliado_banco)
+            if line.conciliado_banco:
+                logging.warn('AAAAAAAAAAAAAAAAAAAAAAA')
+                line.fecha_conciliacion = line.conciliado_banco.fecha
+            else:
+                line.fecha_conciliacion = False
+
     conciliado_banco = fields.One2many("conciliacion_bancaria.fecha", "move_id", string="Conciliacion Linea")
+    fecha_conciliacion = fields.Date(compute='_fecha_conciliacion', string="Fecha conciliación")
 
 # Esto tiene que ser un registro aparte y no otra colummna de account.move.line
 # para que se pueda conciliar y desconciliar aunque el movimiento ya este validado.
