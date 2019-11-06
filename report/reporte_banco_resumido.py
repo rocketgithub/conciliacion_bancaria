@@ -98,7 +98,7 @@ class ReporteBancoResumido(models.AbstractModel):
         resumen['deb_pend_registro'] = abs(resumen['deb_pend_registro'])
         resumen['cred_pend_registro'] = abs(resumen['cred_pend_registro'])
 
-        resumen['saldo_conciliado_compania'] = resumen['balance_final'] - resumen['ck_tr_pend_registro'] + resumen['dep_pend_registro'] + resumen['deb_pend_registro'] - resumen['cred_pend_registro']
+        resumen['saldo_conciliado_compania'] = resumen['balance_final'] - resumen['ck_tr_pend_registro'] + resumen['dep_pend_registro'] - resumen['deb_pend_registro'] + resumen['cred_pend_registro']
 
         return {'encabezado': encabezado, 'lineas': lineas, 'resumen': resumen}
 
