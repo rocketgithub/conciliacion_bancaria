@@ -9,7 +9,7 @@ class ReporteBancoResumido(models.AbstractModel):
 
     def balance_final(self, datos):
 #        self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line l left join conciliacion_bancaria_fecha f on (l.id = f.move_id) where account_id = %s and fecha < %s', (datos.cuenta_bancaria_id.id, datos.fecha_hasta))
-        self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line where account_id = %s and date < %s', (datos.cuenta_bancaria_id.id, datos.fecha_hasta))
+        self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line where account_id = %s and date <= %s', (datos.cuenta_bancaria_id.id, datos.fecha_hasta))
         return self.env.cr.dictfetchall()[0]
 
     def reporte(self, datos):
