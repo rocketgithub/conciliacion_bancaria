@@ -19,18 +19,26 @@ class ReporteBancoResumido(models.AbstractModel):
         encabezado['moneda'] = cuenta.company_id.currency_id
         encabezado['fecha_desde'] = datetime.datetime.strftime(datos.fecha_desde, '%d/%m/%Y')
         encabezado['fecha_hasta'] = datetime.datetime.strftime(datos.fecha_hasta, '%d/%m/%Y')
-        balance_final = self.balance_final(datos)['balance']
+
+#        balance_final = self.balance_final(datos)['balance']
+        balance_final = self.balance_final(datos)
+        if balance_final['balance_moneda']:
+            balance = balance_final['balance_moneda']
+        else:
+            balance = balance_final['balance']
+        
+        
         resumen = {'ck_tr_pend_cambio': 0, 
                    'dep_transito': 0,
                    'deb_registrados_mas': 0,
                    'cred_registrados_mas': 0,
                    'saldo_conciliado_banco': datos.saldo_banco,
-                   'balance_final': balance_final,
+                   'balance_final': balance,
                    'ck_tr_pend_registro': 0,
                    'dep_pend_registro': 0,
                    'deb_pend_registro': 0,
                    'cred_pend_registro': 0,
-                   'saldo_conciliado_compania': balance_final,
+                   'saldo_conciliado_compania': balance,
                   }
 
         lineas = {}
@@ -49,6 +57,14 @@ class ReporteBancoResumido(models.AbstractModel):
                 'credito': linea.credit,
                 'moneda': linea.company_id.currency_id,
             }
+
+            if linea.amount_currency:
+                detalle['moneda'] = linea.currency_id
+                if linea.amount_currency > 0:
+                    detalle['debito'] = linea.amount_currency
+                else:
+                    detalle['credito'] = -1 * linea.amount_currency
+
             if linea.journal_id.tipo_movimiento == 'cheque':
                 lineas['cheque'].append(detalle)
                 resumen['ck_tr_pend_cambio'] += linea.debit - linea.credit

@@ -121,10 +121,10 @@
                                         <span t-esc="l['concepto']"/>
                                     </td>
                                     <td class="text-right">
-                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                     <td class="text-right">
-                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -164,10 +164,10 @@
                                         <span t-esc="l['concepto']"/>
                                     </td>
                                     <td class="text-right">
-                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                     <td class="text-right">
-                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -207,10 +207,10 @@
                                         <span t-esc="l['concepto']"/>
                                     </td>
                                     <td class="text-right">
-                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                     <td class="text-right">
-                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -250,10 +250,10 @@
                                         <span t-esc="l['concepto']"/>
                                     </td>
                                     <td class="text-right">
-                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                     <td class="text-right">
-                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/>
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
                                     </td>
                                 </tr>
                             </tbody>
