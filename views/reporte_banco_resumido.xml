@@ -50,15 +50,15 @@
                                 <td class="text-right"><span t-esc="reporte['resumen']['dep_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
-                                <td><b>+ Tr. recibidas en tránsito</b></td>
-                                <td class="text-right"><span t-esc="reporte['resumen']['deb_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td><b>- Tr. emitidas en tránsito</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['cred_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
                                 <td><b>- Tr. emitidas Pend. Registro</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['deb_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
-                                <td><b>- Tr. emitidas en tránsito</b></td>
-                                <td class="text-right"><span t-esc="reporte['resumen']['cred_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
+                                <td><b>+ Tr. recibidas en tránsito</b></td>
+                                <td class="text-right"><span t-esc="reporte['resumen']['deb_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
                                 <td><b>+ Tr. recibidas Pend. Registro</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['cred_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
