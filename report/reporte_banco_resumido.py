@@ -16,7 +16,7 @@ class ReporteBancoResumido(models.AbstractModel):
         cuenta = self.env['account.account'].browse(datos.cuenta_bancaria_id.id)
         encabezado = {}
         encabezado['cuenta'] = cuenta
-        encabezado['moneda'] = cuenta.company_id.currency_id
+        encabezado['moneda'] = cuenta.currency_id
         encabezado['fecha_desde'] = datetime.datetime.strftime(datos.fecha_desde, '%d/%m/%Y')
         encabezado['fecha_hasta'] = datetime.datetime.strftime(datos.fecha_hasta, '%d/%m/%Y')
 
@@ -83,7 +83,7 @@ class ReporteBancoResumido(models.AbstractModel):
         resumen['deb_registrados_mas'] = abs(resumen['deb_registrados_mas'])
         resumen['cred_registrados_mas'] = abs(resumen['cred_registrados_mas'])
 
-        resumen['saldo_conciliado_banco'] = resumen['saldo_conciliado_banco'] - resumen['ck_tr_pend_cambio'] + resumen['dep_transito'] + resumen['deb_registrados_mas'] - resumen['cred_registrados_mas']
+        resumen['saldo_conciliado_banco'] = resumen['saldo_conciliado_banco'] - resumen['ck_tr_pend_cambio'] + resumen['dep_transito'] - resumen['deb_registrados_mas'] + resumen['cred_registrados_mas']
 
         lineas['pendientes_cheque'] = []
         lineas['pendientes_deposito'] = []
