@@ -16,7 +16,11 @@ class ReporteBancoResumido(models.AbstractModel):
         cuenta = self.env['account.account'].browse(datos.cuenta_bancaria_id.id)
         encabezado = {}
         encabezado['cuenta'] = cuenta
-        encabezado['moneda'] = cuenta.currency_id
+        if cuenta.currency_id:
+            encabezado['moneda'] = cuenta.currency_id
+        else:
+            encabezado['moneda'] = cuenta.company_id.currency_id
+        
         encabezado['fecha_desde'] = datetime.datetime.strftime(datos.fecha_desde, '%d/%m/%Y')
         encabezado['fecha_hasta'] = datetime.datetime.strftime(datos.fecha_hasta, '%d/%m/%Y')
 
