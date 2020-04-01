@@ -37,7 +37,8 @@ class ReporteBanco(models.AbstractModel):
                 else:
                     detalle['credito'] = -1 * linea.amount_currency
 
-            lineas.append(detalle)
+            if not cuenta.currency_id or (linea.currency_id.id == cuenta.currency_id.id):
+                lineas.append(detalle)
 
         balance_inicial = self.balance_inicial(datos)
         if cuenta.currency_id and cuenta.currency_id.id != cuenta.company_id.currency_id.id:
