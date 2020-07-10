@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
-        <record model="ir.ui.view" id="conciliacion_bancaria_pendientes_excel_tree">
-            <field name="name">conciliacion_bancaria.pendientes_excel.tree</field>
-            <field name="model">conciliacion_bancaria.pendientes_excel</field>
+        <record model="ir.ui.view" id="conciliacion_bancaria_pendiente_tree">
+            <field name="name">conciliacion_bancaria.pendiente.tree</field>
+            <field name="model">conciliacion_bancaria.pendiente</field>
             <field name="arch" type="xml">
-                <tree string="Movimientos bancarios no encontrados">
+                <tree string="Movimientos Bancarios Pendientes">
                     <field name="fecha"/>
                     <field name="account_id"/>
                     <field name="tipo_documento"/>
@@ -17,13 +17,13 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="conciliacion_bancaria_pendientes_excel_action">
-            <field name="name">Movimientos bancarios no encontrados</field>
-            <field name="res_model">conciliacion_bancaria.pendientes_excel</field>
+        <record model="ir.actions.act_window" id="conciliacion_bancaria_pendiente_action">
+            <field name="name">Movimientos Bancarios Pendientes</field>
+            <field name="res_model">conciliacion_bancaria.pendiente</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem action="conciliacion_bancaria_pendientes_excel_action" name="Movimientos bancarios no encontrados" id="conciliacion_bancaria_pendientes_excel_menu" parent="account.menu_finance_entries_actions"/>
+        <menuitem action="conciliacion_bancaria_pendiente_action" name="Movimientos Bancarios Pendientes" id="conciliacion_bancaria_pendiente_menu" parent="account.menu_finance_entries_actions"/>
 
     </data>
-</openerp>
+</odoo>

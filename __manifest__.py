@@ -4,9 +4,9 @@
     'name' : 'Conciliación Bancaria',
     'version' : '1.0',
     'category': 'Custom',
-    'description': """Manejo de conciliación bancaria""",
-    'author': 'Rodrigo Fernandez',
-    'website': 'http://solucionesprisma.com/',
+    'description': 'Manejo de conciliación bancaria',
+    'author': 'aquíH',
+    'website': 'http://aquih.com/',
     'depends' : [ 'account' ],
     'data' : [
         'views/account_views.xml',

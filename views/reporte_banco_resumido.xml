@@ -32,35 +32,35 @@
                                 <td style="width:200px"><b>Saldo Final Banco</b></td>
                                 <td style="width:125px" class="text-right"><span t-esc="data['saldo_banco']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td style="width:50px"></td>
-                                <td style="width:220px"><b>Saldo final Contabilidad</b></td>
+                                <td style="width:220px"><b>Saldo Final Contabilidad</b></td>
                                 <td style="width:125px" class="text-right"><span t-esc="reporte['resumen']['balance_final']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
-                                <td><b>- Cheques en circulación</b></td>
+                                <td><b>- Cheques en Circulación</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['ck_tr_pend_cambio']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
                                 <td><b>- Cheques Pend. Registro</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['ck_tr_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
-                                <td><b>+ Dep. en tránsito</b></td>
+                                <td><b>+ Dep. en Tránsito</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['dep_transito']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
                                 <td><b>+ Dep. Pend. Registro</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['dep_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
-                                <td><b>- Tr. emitidas en tránsito</b></td>
+                                <td><b>- Tr. Emitidas en Tránsito</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['deb_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
-                                <td><b>- Tr. emitidas Pend. Registro</b></td>
+                                <td><b>- Tr. Emitidas Pend. Registro</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['deb_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
-                                <td><b>+ Tr. recibidas en tránsito</b></td>
+                                <td><b>+ Tr. Recibidas en Tránsito</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['cred_registrados_mas']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
-                                <td><b>+ Tr. recibidas Pend. Registro</b></td>
+                                <td><b>+ Tr. Recibidas Pend. Registro</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['cred_pend_registro']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
@@ -74,7 +74,7 @@
                                 <td><b>Saldo Conciliado Banco</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['saldo_conciliado_banco']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                                 <td></td>
-                                <td><b>Saldo conciliado Contabilidad</b></td>
+                                <td><b>Saldo Conciliado Contabilidad</b></td>
                                 <td class="text-right"><span t-esc="reporte['resumen']['saldo_conciliado_compania']" t-options="{'widget': 'monetary', 'display_currency': reporte['encabezado']['moneda']}"/></td>
                             </tr>
                             <tr>
@@ -134,7 +134,7 @@
                     </t>
                     <t t-if="reporte['resumen']['dep_transito'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Depósitos en circulación</span>
+                        <span style="font-size: 90%">Depósitos en Circulación</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['deposito']"/>
@@ -177,7 +177,7 @@
                     </t>
                     <t t-if="reporte['resumen']['deb_registrados_mas'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Notas de débito en circulación</span>
+                        <span style="font-size: 90%">Notas de Débito en Circulación</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['nota_debito']"/>
@@ -220,7 +220,7 @@
                     </t>
                     <t t-if="reporte['resumen']['cred_registrados_mas'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Notas de crédito en circulación</span>
+                        <span style="font-size: 90%">Notas de Crédito en Circulación</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['nota_credito']"/>
@@ -263,7 +263,7 @@
                     </t>
                     <t t-if="reporte['resumen']['ck_tr_pend_registro'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Cheques pendientes de registro</span>
+                        <span style="font-size: 90%">Cheques Pendientes de Registro</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['pendientes_cheque']"/>
@@ -271,8 +271,8 @@
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
-                                    <th>Tipo documento</th>
-                                    <th>Numero documento</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Numero Documento</th>
                                     <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
@@ -298,7 +298,7 @@
                     </t>
                     <t t-if="reporte['resumen']['dep_pend_registro'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Depósitos pendientes de registro</span>
+                        <span style="font-size: 90%">Depósitos Pendientes de Registro</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['pendientes_deposito']"/>
@@ -306,8 +306,8 @@
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
-                                    <th>Tipo documento</th>
-                                    <th>Numero documento</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Numero 
                                     <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
@@ -333,7 +333,7 @@
                     </t>
                     <t t-if="reporte['resumen']['deb_pend_registro'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Notas de débito pendientes de registro</span>
+                        <span style="font-size: 90%">Notas de Débito pendientes de Registro</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['pendientes_nota_debito']"/>
@@ -341,8 +341,8 @@
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
-                                    <th>Tipo documento</th>
-                                    <th>Numero documento</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Numero Documento</th>
                                     <th class="text-right">Monto</th>
                                 </tr>
                             </thead>
@@ -368,7 +368,7 @@
                     </t>
                     <t t-if="reporte['resumen']['cred_pend_registro'] != 0">
                         <br/>
-                        <span style="font-size: 90%">Notas de crédito pendientes de registro</span>
+                        <span style="font-size: 90%">Notas de Crédito Pendientes de Registro</span>
                         <br/>
                         <br/>
                         <t t-set="lineas" t-value="reporte['lineas']['pendientes_nota_credito']"/>
@@ -376,8 +376,8 @@
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
-                                    <th>Tipo documento</th>
-                                    <th>Numero documento</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Numero Documento</th>
                                     <th class="text-right">Monto</th>
                                 </tr>
                             </thead>

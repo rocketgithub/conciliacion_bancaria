@@ -11,11 +11,9 @@ class ReporteBanco(models.AbstractModel):
 
         cuenta = self.env['account.account'].browse(datos['cuenta_bancaria_id'][0])
 
-        query = None
+        query = [('account_id','=',datos['cuenta_bancaria_id'][0]), '|', '&', ('conciliado_banco','=',False), ('date','<=',datos['fecha_hasta']), '&', ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>',datos['fecha_hasta']) ]
         if conciliadas:
             query = [('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
-        else:
-            query = [('account_id','=',datos['cuenta_bancaria_id'][0]), '|', '&', ('conciliado_banco','=',False), ('date','<=',datos['fecha_hasta']), '&', ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>',datos['fecha_hasta']) ]
 
         for linea in self.env['account.move.line'].search(query, order='date'):
             detalle = {
@@ -47,7 +45,6 @@ class ReporteBanco(models.AbstractModel):
             balance = balance_inicial['balance']
 
         for linea in lineas:
-
             balance = balance + linea['debito'] - linea['credito']
             linea['balance'] = balance
 
@@ -70,10 +67,6 @@ class ReporteBanco(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        return self.get_report_values(docids, data)
-
-    @api.model
-    def get_report_values(self, docids, data=None):
         model = self.env.context.get('active_model')
         docs = self.env[model].browse(self.env.context.get('active_ids', []))
         

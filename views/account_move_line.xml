@@ -2,23 +2,23 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="view_account_move_line_filter_conciliacion">
-            <field name="name">view_account_move_line_filter_conciliacion</field>
+        <record model="ir.ui.view" id="conciliacion_bancaria_view_account_move_line_filter">
+            <field name="name">conciliacion_bancaria.account.move.line.search</field>
             <field name="model">account.move.line</field>
             <field name="inherit_id" ref="account.view_account_move_line_filter"/>
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <data>
                     <filter name="unreconciled" position="after">
-                        <filter string="No conciliado con banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco" name="no_conciliado_banco"/>
-                        <filter string="Conciliado con banco" domain="[('conciliado_banco','!=',False)]" help="Apuntes que han sido conciliados con el banco" name="si_conciliado_banco"/>
+                        <filter string="Sin Conc. con Banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco" name="no_conciliado_banco"/>
+                        <filter string="Conc. con Banco" domain="[('conciliado_banco','!=',False)]" help="Apuntes que han sido conciliados con el banco" name="si_conciliado_banco"/>
                     </filter>
                 </data>
             </field>
         </record>
 
         <record id="conciliacion_bancaria_view_move_line_tree" model="ir.ui.view">
-            <field name="name">account.move.line.tree</field>
+            <field name="name">conciliacion_bancaria.account.move.line.tree</field>
             <field name="model">account.move.line</field>
             <field name="inherit_id" ref="account.view_move_line_tree"/>
             <field name="arch" type="xml">

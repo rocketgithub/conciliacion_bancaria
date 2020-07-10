@@ -9,5 +9,6 @@ class AccountJournal(models.Model):
             ('cheque','Cheque'),
             ('deposito','Depósito'),
             ('nota_credito','Nota de crédito'),
-            ('nota_debito','Nota de débito')])
+            ('nota_debito','Nota de débito')
+        ], string='Tipo de Movimiento para Conciliación Bancaria')
 

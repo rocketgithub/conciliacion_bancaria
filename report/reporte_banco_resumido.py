@@ -8,7 +8,6 @@ class ReporteBancoResumido(models.AbstractModel):
     _name = 'report.conciliacion_bancaria.reporte_banco_resumido'
 
     def balance_final(self, datos):
-#        self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line l left join conciliacion_bancaria_fecha f on (l.id = f.move_id) where account_id = %s and fecha < %s', (datos.cuenta_bancaria_id.id, datos.fecha_hasta))
         self.env.cr.execute('select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line where account_id = %s and date <= %s', (datos.cuenta_bancaria_id.id, datos.fecha_hasta))
         return self.env.cr.dictfetchall()[0]
 
@@ -24,26 +23,25 @@ class ReporteBancoResumido(models.AbstractModel):
         encabezado['fecha_desde'] = datetime.datetime.strftime(datos.fecha_desde, '%d/%m/%Y')
         encabezado['fecha_hasta'] = datetime.datetime.strftime(datos.fecha_hasta, '%d/%m/%Y')
 
-#        balance_final = self.balance_final(datos)['balance']
         balance_final = self.balance_final(datos)
         if balance_final['balance_moneda']:
             balance = balance_final['balance_moneda']
         else:
             balance = balance_final['balance']
         
-        
-        resumen = {'ck_tr_pend_cambio': 0, 
-                   'dep_transito': 0,
-                   'deb_registrados_mas': 0,
-                   'cred_registrados_mas': 0,
-                   'saldo_conciliado_banco': datos.saldo_banco,
-                   'balance_final': balance,
-                   'ck_tr_pend_registro': 0,
-                   'dep_pend_registro': 0,
-                   'deb_pend_registro': 0,
-                   'cred_pend_registro': 0,
-                   'saldo_conciliado_compania': balance,
-                  }
+        resumen = {
+            'ck_tr_pend_cambio': 0, 
+            'dep_transito': 0,
+            'deb_registrados_mas': 0,
+            'cred_registrados_mas': 0,
+            'saldo_conciliado_banco': datos.saldo_banco,
+            'balance_final': balance,
+            'ck_tr_pend_registro': 0,
+            'dep_pend_registro': 0,
+            'deb_pend_registro': 0,
+            'cred_pend_registro': 0,
+            'saldo_conciliado_compania': balance,
+        }
 
         lineas = {}
         lineas['cheque'] = []
@@ -125,10 +123,6 @@ class ReporteBancoResumido(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        return self.get_report_values(docids, data)
-
-    @api.model
-    def get_report_values(self, docids, data=None):
         model = self.env.context.get('active_model')
         docs = self.env[model].browse(self.env.context.get('active_ids', []))
         

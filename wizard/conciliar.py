@@ -2,48 +2,49 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import UserError, ValidationError
+from datetime import date
 import logging
 
-class Conciliar(models.TransientModel):
+class ConciliacionBancariaConciliar(models.TransientModel):
     _name = "conciliacion_bancaria.conciliar"
-    _description = "Conciliar con banco"
+    _description = "Conciliar con Banco"
 
-    fecha = fields.Date(string="Fecha")
+    fecha = fields.Date(string="Fecha", required=True)
 
-    @api.multi
+    def _check_fiscalyear_lock_date(self):
+        self.ensure_one()
+
+        lock_date = max(move.company_id.period_lock_date or date.min, move.company_id.fiscalyear_lock_date or date.min)
+        if self.user_has_groups('account.group_account_manager'):
+            lock_date = move.company_id.fiscalyear_lock_date
+
+        if rec.fecha <= (lock_date or date.min):
+            if self.user_has_groups('account.group_account_manager'):
+                message = _("You cannot add/modify entries prior to and inclusive of the lock date %s.") % format_date(self.env, lock_date)
+            else:
+                message = _("You cannot add/modify entries prior to and inclusive of the lock date %s. Check the company settings or ask someone with the 'Adviser' role") % format_date(self.env, lock_date)
+            raise UserError(message)
+
+        return True
+    
+
     def conciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                lock_date = max(str(line.company_id.period_lock_date or '0000-00-00'), str(line.company_id.fiscalyear_lock_date or '0000-00-00'))
-                if self.user_has_groups('account.group_account_manager'):
-                    lock_date = str(line.company_id.fiscalyear_lock_date or '0000-00-00')
-
-                logging.getLogger('conciliacion_bancaria_lock_date').warn(lock_date)
-                logging.getLogger('conciliacion_bancaria_rec_fecha').warn(rec.fecha)
-                if rec.fecha and lock_date < str(rec.fecha):
+                if self._check_fiscalyear_lock_date():
                     self.env['conciliacion_bancaria.fecha'].create({
                         'move_id': line.id,
                         'fecha': rec.fecha
                     })
 
-                    for linea_pendiente in self.env['conciliacion_bancaria.pendientes_excel'].search([('account_id', '=', line.account_id.id), ('numero_documento', '=', line.ref)]):
-                        if linea_pendiente.monto == line.debit - line.credit:
-                            linea_pendiente.unlink()
-                else:
-                    raise UserError("La fecha ingresada es anterior a lo permitido en la configuración contable.")
+                    self.env['conciliacion_bancaria.pendiente'].conciliables(line.ref, line.account_id.id, line.debit - line.credit).unlink()
+
         return {'type': 'ir.actions.act_window_close'}
 
     def desconciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                lock_date = max(str(line.company_id.period_lock_date or '0000-00-00'), str(line.company_id.fiscalyear_lock_date or '0000-00-00'))
-                if self.user_has_groups('account.group_account_manager'):
-                    lock_date = str(line.company_id.fiscalyear_lock_date or '0000-00-00')
-
-                logging.getLogger('conciliacion_bancaria_lock_date').warn(lock_date)
-                logging.getLogger('conciliacion_bancaria_line_conciliado_banco_fecha').warn(line.conciliado_banco.fecha)
-                if line.conciliado_banco and lock_date < str(line.conciliado_banco.fecha):
+                if self._check_fiscalyear_lock_date():
                     conciliados = self.env['conciliacion_bancaria.fecha'].search([('move_id','=',line.id)]).unlink()
-                else:
-                    raise UserError("El movimiento no está conciliado ó la fecha conciliada es anterior a lo permitido en la configuración contable.")
+
         return {'type': 'ir.actions.act_window_close'}

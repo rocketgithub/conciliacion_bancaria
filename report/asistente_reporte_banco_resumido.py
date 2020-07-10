@@ -7,18 +7,17 @@ import time
 class AsistenteReporteBancoResumido(models.TransientModel):
     _name = 'conciliacion_bancaria.asistente_reporte_banco_resumido'
 
+    cuenta_bancaria_id = fields.Many2one("account.account", string="Cuenta", required=True, default=_default_cuenta)
+    fecha_desde = fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
+    fecha_hasta = fields.Date(string="Fecha Final", required=True, default=lambda self: time.strftime('%Y-%m-%d'))
+    saldo_banco = fields.Float('Saldo Banco')
+
     def _default_cuenta(self):
         if len(self.env.context.get('active_ids', [])) > 0:
             return self.env.context.get('active_ids')[0]
         else:
             return None
 
-    cuenta_bancaria_id = fields.Many2one("account.account", string="Cuenta", required=True, default=_default_cuenta)
-    fecha_desde = fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
-    fecha_hasta = fields.Date(string="Fecha Final", required=True, default=lambda self: time.strftime('%Y-%m-%d'))
-    saldo_banco = fields.Float('Saldo banco')
-
-    @api.multi
     def print_report(self):
         data = {
              'ids': [],

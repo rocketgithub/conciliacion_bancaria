@@ -4,14 +4,14 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <h2><span t-esc="res_company.name"/>: Libro de banco conciliado</h2>
+                    <h2><span t-esc="res_company.name"/>: Libro de Banco Conciliado</h2>
                     <div class="row mt32">
                         <div class="col-xs-4">
                             <strong>Cuenta: </strong> <span t-esc="data['cuenta_bancaria_id'][1]"/><br/>
                         </div>
                         <div class="col-xs-4">
-                            <strong>Fecha inicial: </strong> <span t-esc="data['fecha_desde']" t-esc-options='{"widget": "date"}'/><br/>
-                            <strong>Fecha final: </strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
+                            <strong>Fecha Inicial: </strong> <span t-esc="data['fecha_desde']" t-esc-options='{"widget": "date"}'/><br/>
+                            <strong>Fecha Final: </strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
                         </div>
                     </div>
 
@@ -23,15 +23,15 @@
 
                     <table class="table table-condensed">
                         <tr>
-                            <td><b>(+) Saldo conciliado</b></td>
+                            <td><b>(+) Saldo Conciliado</b></td>
                             <td class="text-right"><span t-esc="balance_final" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
                         <tr>
-                            <td><b>(+) Movimientos no operados</b></td>
+                            <td><b>(+) Movimientos no Operados</b></td>
                             <td class="text-right"><span t-esc="movimiento['movimientos_positivos']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
                         <tr>
-                            <td><b>(-) Movimientos no operados</b></td>
+                            <td><b>(-) Movimientos no Ooperados</b></td>
                             <td class="text-right"><span t-esc="movimiento['movimientos_negativos']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
                         <t t-set="total" t-value="balance_final + movimiento['movimientos_positivos'] + movimiento['movimientos_negativos']"/>
@@ -40,7 +40,7 @@
                             <td class="text-right"><span t-esc="total" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
                         <tr>
-                            <td><b>(-) Saldo ingresado</b></td>
+                            <td><b>(-) Saldo Ingresado</b></td>
                             <td class="text-right"><span t-esc="data['saldo_banco']" t-esc-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
                         <t t-set="diferencia" t-value="total - data['saldo_banco']"/>
@@ -124,7 +124,7 @@
 
                     <t t-if="data['mostrar_circulacion']">
                         <div>
-                            <strong>En circulación</strong>
+                            <strong>En Circulación</strong>
                         </div>
                         <t t-set="total_credito_circulacion" t-value="0"/>
                         <t t-set="total_debito_circulacion" t-value="0"/>
