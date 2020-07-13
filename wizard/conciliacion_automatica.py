@@ -43,14 +43,10 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
                 linea_excel[llave] = {
                     'fecha': fecha.strftime("%Y-%m-%d"),
                     'tipo_documento': tipo_documento,
-                    'monto': float(sheet.cell(x, 3).value), 
-                    'tipo_movimiento':
+                    'monto': monto, 
+                    'tipo_movimiento':tipo_movimiento
+                    'numero_documento': numero_documento
                 }
-                linea_excel[llave]['fecha'] = fecha.strftime("%Y-%m-%d")
-                linea_excel[llave]['tipo_documento'] = tipo_documento
-                linea_excel[llave]['monto'] = monto
-                linea_excel[llave]['tipo_movimiento'] = tipo_movimiento
-                linea_excel[llave]['numero_documento'] = numero_documento
 
         apuntes = self.env['account.move.line'].search([('account_id', '=', self.account_id.id), ('conciliado_banco', '=', False)])
         apuntes_sin_conciliar = self.env['account.move.line']
