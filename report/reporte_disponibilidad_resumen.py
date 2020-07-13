@@ -52,7 +52,7 @@ class DisponibilidadResumenReporte(models.Model):
                         0 as saldo_conciliado,
                         case when monto > 0 then monto else 0 end as creditos_pendientes,
                         case when monto < 0 then monto else 0 end as debitos_pendientes
-                        from conciliacion_bancaria_pendientes_excel l
+                        from conciliacion_bancaria_pendiente l
                 ) as detalles
                 group by cuenta_id
             )
