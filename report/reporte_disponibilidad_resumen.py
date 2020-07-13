@@ -18,7 +18,6 @@ class DisponibilidadResumenReporte(models.Model):
     saldo_banco = fields.Float(string='Saldo banco', readonly=True)
     saldo_disponible = fields.Float(string='Saldo disponible', readonly=True)
 
-    @api.model_cr
     def init(self):
         tools.drop_view_if_exists(self._cr, 'conciliacion_bancaria_disponibilidad_resumen_report')
         self._cr.execute("""
