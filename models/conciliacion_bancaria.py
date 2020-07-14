@@ -10,7 +10,7 @@ class ConciliacionBancariaPendiente(models.Model):
     account_id = fields.Many2one('account.account', string='Cuenta', required=True)
     tipo_documento = fields.Char(string="Tipo doc.", required=True)
     numero_documento = fields.Char(string="No. doc.", required=True)
-    monto = fields.Monetary(string='Monto', required=True)
+    monto = fields.Float(string='Monto', required=True)
     tipo_movimiento = fields.Char('Tipo mov.', required=True)
 
     @api.model

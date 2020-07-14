@@ -307,7 +307,7 @@
                                 <tr>
                                     <th>Fecha</th>
                                     <th>Tipo Documento</th>
-                                    <th>Numero 
+                                    <th>Numero</th> 
                                     <th class="text-right">Monto</th>
                                 </tr>
                             </thead>

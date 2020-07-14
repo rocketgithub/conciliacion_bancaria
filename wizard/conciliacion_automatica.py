@@ -7,7 +7,7 @@ import xlrd
 import base64
 
 class ConciliacionBancariaAutomaticaPendiente(models.TransientModel):
-    _name = 'conciliacion_bancaria.automatica_pendiente'
+    _name = 'conciliacion_bancaria.automatica.wizard.pendiente'
 
     conciliacion_automatica_id = fields.Many2one('conciliacion_bancaria.wizard', 'Encabezado')
     fecha = fields.Date('Fecha')
@@ -17,12 +17,12 @@ class ConciliacionBancariaAutomaticaPendiente(models.TransientModel):
     tipo_movimiento = fields.Char('Tipo Mov.')
 
 class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
-    _name = 'conciliacion_bancaria.automatica'
+    _name = 'conciliacion_bancaria.automatica.wizard'
 
     fecha = fields.Date('Fecha Conciliación')
     account_id = fields.Many2one('account.account', 'Cuenta')
     archivo = fields.Binary('Archivo Excel')
-    pendiente_ids = fields.One2many('conciliacion_bancaria.automatica_pendiente', 'conciliacion_automatica_id', string='Movimientos Bancarios no Encontrados')
+    pendiente_ids = fields.One2many('conciliacion_bancaria.automatica.wizard.pendiente', 'conciliacion_automatica_id', string='Movimientos Bancarios no Encontrados')
     move_line_ids = fields.Many2many('account.move.line', string='Apuntes Contables sin Conciliar')
 
     def conciliar(self):
@@ -44,8 +44,8 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
                     'fecha': fecha.strftime("%Y-%m-%d"),
                     'tipo_documento': tipo_documento,
                     'monto': monto, 
-                    'tipo_movimiento':tipo_movimiento
-                    'numero_documento': numero_documento
+                    'tipo_movimiento':tipo_movimiento,
+                    'numero_documento': numero_documento,
                 }
 
         apuntes = self.env['account.move.line'].search([('account_id', '=', self.account_id.id), ('conciliado_banco', '=', False)])

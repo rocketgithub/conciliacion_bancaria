@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
         <record id="wizard_conciliacion_automatica" model="ir.ui.view">
-            <field name="name">conciliacion_bancaria.wizard</field>
-            <field name="model">conciliacion_bancaria.wizard</field>
+            <field name="name">conciliacion_bancaria.automatica.wizard</field>
+            <field name="model">conciliacion_bancaria.automatica.wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Conciliacion automatica">
@@ -41,17 +41,17 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_conciliacion_bancaria_wizard">
-            <field name="name">Conciliacion automatica</field>
-            <field name="res_model">conciliacion_bancaria.wizard</field>
+            <field name="name">Conciliacion Automatica</field>
+            <field name="res_model">conciliacion_bancaria.automatica.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
 
-        <menuitem action="action_conciliacion_bancaria_wizard" id="menu_wizard_conciliacion_bancaria_wizard" name="Conciliacion automatica" parent="account.menu_finance_entries_actions"/>
+        <menuitem action="action_conciliacion_bancaria_wizard" id="menu_wizard_conciliacion_bancaria_wizard" name="Conciliacion Automatica" parent="account.menu_finance_entries_actions"/>
 
         <record id="conciliacion_automatica_limpiar_pendientes_form" model="ir.ui.view">
             <field name="name">conciliacion_bancaria.limpiar_pendientes.form</field>
-            <field name="model">conciliacion_bancaria.limpiar_pendientes.form</field>
+            <field name="model">conciliacion_bancaria.limpiar_pendientes.wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Conciliar Movimientos Bancarios no Encontrados">
@@ -78,11 +78,10 @@
 
         <act_window id="action_conciliacion_bancaria_limpiar_pendientes_wizard"
             name="Conciliar Movimientos Bancarios no Encontrados"
-            src_model="conciliacion_bancaria.limpiar_pendientes"
+            binding_model="conciliacion_bancaria.limpiar_pendientes"
             res_model="conciliacion_bancaria.limpiar_pendientes.wizard"
-            view_type="form" view_mode="form"
-            key2="client_action_multi" target="new"
-        />
+            view_mode="form"
+            target="new"/>
 
     </data>
-</openerp>
+</odoo>

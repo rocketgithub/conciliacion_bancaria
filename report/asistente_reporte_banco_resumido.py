@@ -13,9 +13,9 @@ class AsistenteReporteBancoResumido(models.TransientModel):
         else:
             return None
 
-    cuenta_bancaria_id = fields.Many2one("account.account", string="Cuenta", required=True, default=_default_cuenta)
-    fecha_desde = fields.Date(string="Fecha Inicial", required=True, default=lambda self: time.strftime('%Y-%m-01'))
-    fecha_hasta = fields.Date(string="Fecha Final", required=True, default=lambda self: time.strftime('%Y-%m-%d'))
+    cuenta_bancaria_id = fields.Many2one('account.account', string='Cuenta', required=True, default=_default_cuenta)
+    fecha_desde = fields.Date(string='Fecha Inicial', required=True, default=lambda self: time.strftime('%Y-%m-01'))
+    fecha_hasta = fields.Date(string='Fecha Final', required=True, default=lambda self: time.strftime('%Y-%m-%d'))
     saldo_banco = fields.Float('Saldo Banco')
 
     def print_report(self):

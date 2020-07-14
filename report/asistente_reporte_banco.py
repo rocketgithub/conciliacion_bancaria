@@ -19,7 +19,6 @@ class AsistenteReporteBanco(models.TransientModel):
     fecha_hasta = fields.Date(string="Fecha Final", required=True, default=lambda self: time.strftime('%Y-%m-%d'))
     saldo_banco = fields.Float('Saldo Banco')
 
-    @api.multi
     def print_report(self):
         data = {
              'ids': [],
