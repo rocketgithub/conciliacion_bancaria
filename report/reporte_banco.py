@@ -55,7 +55,7 @@ class ReporteBanco(models.AbstractModel):
         return self.env.cr.dictfetchall()[0]
 
     def movimientos_pendientes(self,datos):
-        movimientos = self.env['conciliacion_bancaria.pendientes_excel'].search([('fecha', '<', datos['fecha_hasta']), ('fecha', '>', datos['fecha_desde']),('account_id', '=', datos['cuenta_bancaria_id'][0])])
+        movimientos = self.env['conciliacion_bancaria.pendiente'].search([('fecha', '<', datos['fecha_hasta']), ('fecha', '>', datos['fecha_desde']),('account_id', '=', datos['cuenta_bancaria_id'][0])])
         positivos = 0
         negativos = 0
         for movimiento in movimientos:

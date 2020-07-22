@@ -11,27 +11,27 @@ class ConciliacionBancariaConciliar(models.TransientModel):
 
     fecha = fields.Date(string="Fecha", required=True)
 
-    def _check_fiscalyear_lock_date(self):
-        self.ensure_one()
-
-        lock_date = max(move.company_id.period_lock_date or date.min, move.company_id.fiscalyear_lock_date or date.min)
-        if self.user_has_groups('account.group_account_manager'):
-            lock_date = move.company_id.fiscalyear_lock_date
-
-        if rec.fecha <= (lock_date or date.min):
-            if self.user_has_groups('account.group_account_manager'):
-                message = _("You cannot add/modify entries prior to and inclusive of the lock date %s.") % format_date(self.env, lock_date)
-            else:
-                message = _("You cannot add/modify entries prior to and inclusive of the lock date %s. Check the company settings or ask someone with the 'Adviser' role") % format_date(self.env, lock_date)
-            raise UserError(message)
-
-        return True
+#    def _check_fiscalyear_lock_date(self):
+#        self.ensure_one()
+#
+#        lock_date = max(move.company_id.period_lock_date or date.min, move.company_id.fiscalyear_lock_date or date.min)
+#        if self.user_has_groups('account.group_account_manager'):
+#            lock_date = move.company_id.fiscalyear_lock_date
+#
+#        if rec.fecha <= (lock_date or date.min):
+#            if self.user_has_groups('account.group_account_manager'):
+#                message = _("You cannot add/modify entries prior to and inclusive of the lock date %s.") % format_date(self.env, lock_date)
+#            else:
+#                message = _("You cannot add/modify entries prior to and inclusive of the lock date %s. Check the company settings or ask someone with the 'Adviser' role") % format_date(self.env, lock_date)
+#            raise UserError(message)
+#
+#        return True
     
 
     def conciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                if self._check_fiscalyear_lock_date():
+                if line.move_id._check_fiscalyear_lock_date():
                     self.env['conciliacion_bancaria.fecha'].create({
                         'move_id': line.id,
                         'fecha': rec.fecha
