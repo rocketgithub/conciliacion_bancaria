@@ -2,7 +2,6 @@
 
 from odoo import api, fields, models, tools
 
-
 class DisponibilidadResumenReporte(models.Model):
     _name = "conciliacion_bancaria.disponibilidad_resumen.report"
     _description = "Reporte Disponibilidad Resumen"
