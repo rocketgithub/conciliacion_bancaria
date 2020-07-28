@@ -10,8 +10,8 @@
                             <strong>Cuenta: </strong> <span t-esc="data['cuenta_bancaria_id'][1]"/><br/>
                         </div>
                         <div class="col-xs-4">
-                            <strong>Fecha inicial: </strong> <span t-esc="data['fecha_desde']" t-esc-options='{"widget": "date"}'/><br/>
-                            <strong>Fecha final: </strong> <span t-esc="data['fecha_hasta']" t-esc-options='{"widget": "date"}'/>
+                            <strong>Fecha inicial: </strong> <span t-esc="data['fecha_desde']" t-options='{"widget": "date"}'/><br/>
+                            <strong>Fecha final: </strong> <span t-esc="data['fecha_hasta']" t-options='{"widget": "date"}'/>
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
                             </tr>
                             <tr t-foreach="lineas(True, data)" t-as="l">
                                 <td>
-                                    <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                    <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                 </td>
                                 <td>
                                     <span t-esc="l['documento']"/>
@@ -142,7 +142,7 @@
                             <tbody>
                                 <tr t-foreach="lineas(False, data)" t-as="l">
                                     <td>
-                                        <span t-esc="l['fecha']" t-esc-options='{"widget": "date"}'/>
+                                        <span t-esc="l['fecha']" t-options='{"widget": "date"}'/>
                                     </td>
                                     <td>
                                         <span t-esc="l['documento']"/>
