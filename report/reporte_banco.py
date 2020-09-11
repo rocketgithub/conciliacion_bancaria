@@ -79,6 +79,7 @@ class ReporteBanco(models.AbstractModel):
             'lineas': self.lineas,
             'balance_inicial': self.balance_inicial(data['form'])['balance_moneda'] if docs[0].cuenta_bancaria_id.currency_id and docs[0].cuenta_bancaria_id.currency_id.id != docs[0].cuenta_bancaria_id.company_id.currency_id.id else self.balance_inicial(data['form'])['balance'],
             'movimientos_pendientes': self.movimientos_pendientes,
+            'current_company_id': self.env.company,
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
