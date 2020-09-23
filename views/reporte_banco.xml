@@ -101,17 +101,17 @@
                                 </td>
                                 <td class="text-right">
                                     <t t-set="total_debito_conciliado" t-value="total_debito_conciliado + l['debito'] "/>
-                                    <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                    <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                 </td>
                                 <td class="text-right">
                                     <t t-set="total_credito_conciliado" t-value="total_debito_conciliado + l['credito'] "/>
-                                    <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                    <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                 </td>
                                 <td class="text-right">
-                                    <span t-esc="l['balance']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                    <span t-esc="l['balance']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                 </td>
                                 <t t-set="balance_final" t-value="l['balance']"/>
-                                <t t-set="moneda" t-value="l['moneda']"/>
+<!--                                <t t-set="moneda" t-value="l['moneda']"/>-->
                             </tr>
                             <tr>
                                 <td colspan="4"></td>
@@ -155,11 +155,11 @@
                                     </td>
                                     <td class="text-right">
                                         <t t-set="total_debito_circulacion" t-value="total_debito_circulacion + l['debito']"/>
-                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                         <span t-esc="l['debito']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                     </td>
                                     <td class="text-right">
                                         <t t-set="total_credito_circulacion" t-value="total_credito_circulacion + l['credito']"/>
-                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': l['moneda']}"/>
+                                        <span t-esc="l['credito']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                     </td>
                                 </tr>
                                 <tr>
