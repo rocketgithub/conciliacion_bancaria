@@ -21,8 +21,8 @@ class ReporteBancoResumido(models.AbstractModel):
         else:
             encabezado['moneda'] = cuenta.company_id.currency_id
         
-        encabezado['fecha_desde'] = datetime.datetime.strftime(datos.fecha_desde, '%d/%m/%Y')
-        encabezado['fecha_hasta'] = datetime.datetime.strftime(datos.fecha_hasta, '%d/%m/%Y')
+        encabezado['fecha_desde'] = datetime.datetime.strftime(datetime.datetime.strptime(datos.fecha_desde,'%Y-%m-%d'), '%d/%m/%Y')
+        encabezado['fecha_hasta'] = datetime.datetime.strftime(datetime.datetime.strptime(datos.fecha_hasta,'%Y-%m-%d'), '%d/%m/%Y')
 
 #        balance_final = self.balance_final(datos)['balance']
         balance_final = self.balance_final(datos)
