@@ -3,6 +3,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import date
+from odoo.tools.misc import format_date
 import logging
 
 class ConciliacionBancariaConciliar(models.TransientModel):
