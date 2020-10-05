@@ -39,7 +39,7 @@ class ConciliacionAutomaticaWizard(models.TransientModel):
 
         dict = {}
         #En ese ciclo se construye el diccionario con la informacion del archivo de excel.
-        for x in xrange(sheet.nrows):
+        for x in range(sheet.nrows):
             if x != 0:
                 logging.warn(sheet.cell(x, 0).value)
                 logging.warn(sheet.cell(x, 1).value)
