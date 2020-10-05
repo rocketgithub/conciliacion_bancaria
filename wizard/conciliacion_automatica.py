@@ -31,7 +31,7 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
 
         # En ese ciclo se construye el diccionario con la informacion del archivo de excel.
         linea_excel = {}
-        for x in xrange(sheet.nrows):
+        for x in range(sheet.nrows):
             if x != 0:
                 fecha = xlrd.xldate.xldate_as_datetime(sheet.cell(x, 0).value, workbook.datemode)
                 tipo_documento = str(sheet.cell(x, 1).value)
