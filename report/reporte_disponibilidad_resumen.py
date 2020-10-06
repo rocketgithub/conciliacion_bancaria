@@ -23,6 +23,7 @@ class DisponibilidadResumenReporte(models.Model):
             CREATE OR REPLACE VIEW conciliacion_bancaria_disponibilidad_resumen_report AS (
                 select cuenta_id as id,
                     cuenta_id,
+                    company_id,
                     sum(debe_sin_conciliar) as debe_sin_conciliar,
                     sum(haber_sin_conciliar) as haber_sin_conciliar,
                     sum(saldo_conciliado) as saldo_conciliado,
@@ -34,25 +35,27 @@ class DisponibilidadResumenReporte(models.Model):
                 from (
                     select l.id as id,
                         l.account_id as cuenta_id,
+                        a.company_id,
                         case when f.fecha is null and l.debit > 0 then l.debit else 0 end as debe_sin_conciliar,
                         case when f.fecha is null and l.credit > 0 then l.credit else 0 end as haber_sin_conciliar,
                         case when f.fecha is not null then l.debit - l.credit else 0 end as saldo_conciliado,
                         0 as creditos_pendientes,
                         0 as debitos_pendientes
-                    from account_move_line l left join conciliacion_bancaria_fecha f on (l.id = f.move_id)
+                    from account_move_line l join account_account a on (l.account_id = a.id) left join conciliacion_bancaria_fecha f on (l.id = f.move_id)
                     where account_id in (
                         select id from account_account where internal_type = 'liquidity'
                     )
                     union all
                     select l.id as id,
                         l.account_id as cuenta_id,
+                        a.company_id,
                         0 as debe_sin_conciliar,
                         0 as haber_sin_conciliar,
                         0 as saldo_conciliado,
                         case when monto > 0 then monto else 0 end as creditos_pendientes,
                         case when monto < 0 then monto else 0 end as debitos_pendientes
-                        from conciliacion_bancaria_pendiente l
+                        from conciliacion_bancaria_pendiente l join account_account a on (l.account_id = a.id)
                 ) as detalles
-                group by cuenta_id
+                group by cuenta_id, company_id
             )
         """)

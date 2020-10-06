@@ -19,6 +19,7 @@
         'wizard/conciliar.xml',
         'wizard/conciliacion_automatica.xml',
         'security/ir.model.access.csv',
+        'security/conciliacion_bancaria_security.xml',
     ],
     'demo': [],
     'installable': True,

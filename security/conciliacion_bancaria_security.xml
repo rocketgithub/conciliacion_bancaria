@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="conciliacion_bancaria_compania" model="ir.rule">
+            <field name="name">conciliacion_bancaria multi-company</field>
+            <field name="model_id" ref="conciliacion_bancaria.model_conciliacion_bancaria_disponibilidad_resumen_report"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>
