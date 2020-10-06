@@ -18,8 +18,6 @@ class Conciliar(models.TransientModel):
                 if self.user_has_groups('account.group_account_manager'):
                     lock_date = str(line.company_id.fiscalyear_lock_date or '0000-00-00')
 
-                logging.getLogger('conciliacion_bancaria_lock_date').warn(lock_date)
-                logging.getLogger('conciliacion_bancaria_rec_fecha').warn(rec.fecha)
                 if rec.fecha and lock_date < str(rec.fecha):
                     self.env['conciliacion_bancaria.fecha'].create({
                         'move_id': line.id,
@@ -40,8 +38,6 @@ class Conciliar(models.TransientModel):
                 if self.user_has_groups('account.group_account_manager'):
                     lock_date = str(line.company_id.fiscalyear_lock_date or '0000-00-00')
 
-                logging.getLogger('conciliacion_bancaria_lock_date').warn(lock_date)
-                logging.getLogger('conciliacion_bancaria_line_conciliado_banco_fecha').warn(line.conciliado_banco.fecha)
                 if line.conciliado_banco and lock_date < str(line.conciliado_banco.fecha):
                     conciliados = self.env['conciliacion_bancaria.fecha'].search([('move_id','=',line.id)]).unlink()
                 else:
