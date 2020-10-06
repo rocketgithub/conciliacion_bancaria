@@ -16,11 +16,12 @@ class DisponibilidadResumenReporte(models.Model):
     saldo = fields.Float(string='Saldo', readonly=True)
     saldo_banco = fields.Float(string='Saldo banco', readonly=True)
     saldo_disponible = fields.Float(string='Saldo disponible', readonly=True)
+    company_id = fields.Many2one('res.company', string='Company', readonly=True)
 
     def init(self):
-        tools.drop_view_if_exists(self._cr, 'conciliacion_bancaria_disponibilidad_resumen_report')
+        tools.drop_view_if_exists(self.env.cr, self._table)
         self._cr.execute("""
-            CREATE OR REPLACE VIEW conciliacion_bancaria_disponibilidad_resumen_report AS (
+            CREATE OR REPLACE VIEW %s AS (
                 select cuenta_id as id,
                     cuenta_id,
                     company_id,
@@ -58,4 +59,4 @@ class DisponibilidadResumenReporte(models.Model):
                 ) as detalles
                 group by cuenta_id, company_id
             )
-        """)
+        """ % (self._table))
