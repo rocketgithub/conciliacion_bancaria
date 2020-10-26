@@ -17,9 +17,9 @@
                         </tr>
                         <tr>
                             <td><b>Desde:</b></td>
-                            <td><span t-esc="reporte['encabezado']['fecha_desde']"/></td>
+                            <td><span t-esc="reporte['encabezado']['fecha_desde']" t-options='{"widget": "date"}'/></td>
                             <td><b>Hasta</b></td>
-                            <td><span t-esc="reporte['encabezado']['fecha_hasta']"/></td>
+                            <td><span t-esc="reporte['encabezado']['fecha_hasta']" t-options='{"widget": "date"}'/></td>
                         </tr>
                     </table>
                     <br/>
