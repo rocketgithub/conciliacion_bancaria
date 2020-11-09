@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        
+        <menuitem id="menu_informes" name="Informes de Conciliación Bancaria" parent="account.menu_finance_reports"/>
 
         <record id="conciliacion_bancaria_asistente_reporte_banco" model="ir.ui.view">
             <field name="name">conciliacion_bancaria.asistente_reporte_banco</field>
@@ -21,7 +23,6 @@
                     </group>
                     <footer>
                         <button name="print_report" string="Reporte" type="object" class="oe_highlight"/>
-                        o
                         <button special="cancel" string="Cancel" class="oe_link"/>
                     </footer>
                 </form>
@@ -29,7 +30,7 @@
         </record>
 
         <act_window id="conciliacion_bancaria_window_banco_reporte" name="Libro de Banco Conciliado" res_model="conciliacion_bancaria.asistente_reporte_banco" binding_model="account.account" view_mode="form" target="new"/>
-        <menuitem action="conciliacion_bancaria_window_banco_reporte" id="conciliacion_bancaria_menu_banco_reporte_asistente" parent="account.menu_finance_reports"/>
+        <menuitem action="conciliacion_bancaria_window_banco_reporte" id="conciliacion_bancaria_menu_banco_reporte_asistente" parent="menu_informes"/>
         <report id="conciliacion_bancaria_action_reporte_banco" model="conciliacion_bancaria.asistente_reporte_banco" string="Libro de Banco Conciliado" report_type="qweb-pdf" name="conciliacion_bancaria.reporte_banco" file="conciliacion_bancaria.reporte_banco"/>
 
         <record id="conciliacion_bancaria_asistente_reporte_banco_resumido" model="ir.ui.view">
@@ -50,7 +51,6 @@
                     </group>
                     <footer>
                         <button name="print_report" string="Reporte" type="object" class="oe_highlight"/>
-                        o
                         <button special="cancel" string="Cancel" class="oe_link"/>
                     </footer>
                 </form>
@@ -58,7 +58,7 @@
         </record>
 
         <act_window id="conciliacion_bancaria_window_banco_reporte_resumido" name="Reporte de Banco Resumido" res_model="conciliacion_bancaria.asistente_reporte_banco_resumido" binding_model="account.account" view_mode="form" target="new"/>
-        <menuitem action="conciliacion_bancaria_window_banco_reporte_resumido" id="conciliacion_bancaria_menu_banco_reporte_asistente_resumido" parent="account.menu_finance_reports"/>
+        <menuitem action="conciliacion_bancaria_window_banco_reporte_resumido" id="conciliacion_bancaria_menu_banco_reporte_asistente_resumido" parent="menu_informes"/>
         <report id="conciliacion_bancaria_action_reporte_banco_resumido" model="conciliacion_bancaria.asistente_reporte_banco_resumido" string="Reporte de Banco Resumido" report_type="qweb-pdf" name="conciliacion_bancaria.reporte_banco_resumido" file="conciliacion_bancaria.reporte_banco_resumido"/>
 
     </data>
