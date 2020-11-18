@@ -91,7 +91,7 @@ class ReporteBancoResumido(models.AbstractModel):
         lineas['pendientes_deposito'] = []
         lineas['pendientes_nota_debito'] = []
         lineas['pendientes_nota_credito'] = []
-        for movimiento in self.env['conciliacion_bancaria.pendientes_excel'].search([('account_id', '=', datos.cuenta_bancaria_id.id), ('fecha','<=',datos['fecha_hasta'])], order='fecha'):
+        for movimiento in self.env['conciliacion_bancaria.pendiente'].search([('account_id', '=', datos.cuenta_bancaria_id.id), ('fecha','<=',datos['fecha_hasta'])], order='fecha'):
             detalle = {
                 'fecha': movimiento.fecha,
                 'tipo_documento': movimiento.tipo_documento,

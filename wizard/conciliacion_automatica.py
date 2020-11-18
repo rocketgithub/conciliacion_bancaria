@@ -9,7 +9,7 @@ import base64
 class ConciliacionBancariaAutomaticaPendiente(models.TransientModel):
     _name = 'conciliacion_bancaria.automatica.wizard.pendiente'
 
-    conciliacion_automatica_id = fields.Many2one('conciliacion_bancaria.wizard', 'Encabezado')
+    conciliacion_automatica_id = fields.Many2one('conciliacion_bancaria.automatica.wizard', 'Encabezado')
     fecha = fields.Date('Fecha')
     tipo_documento = fields.Char('Tipo Doc.')
     numero_documento = fields.Char('No. Doc.')
@@ -76,7 +76,7 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
                 'monto': linea_excel[llave]['monto'],
                 'tipo_movimiento': linea_excel[llave]['tipo_movimiento'],
             }))
-            if not pendientes_excel_obj.conciliables(linea_excel[llave]['numero_documento'], self.account_id.id, linea_excel[llave]['monto']):
+            if not self.env['conciliacion_bancaria.pendiente'].conciliables(linea_excel[llave]['numero_documento'], self.account_id.id, linea_excel[llave]['monto']):
                 self.env['conciliacion_bancaria.pendiente'].create({
                     'fecha': linea_excel[llave]['fecha'],
                     'account_id': self.account_id.id,
@@ -94,7 +94,7 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
         return {
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'conciliacion_bancaria.wizard',
+            'res_model': 'conciliacion_bancaria.automatica.wizard',
             'res_id': self.id,
             'view_id': False,
             'type': 'ir.actions.act_window',
