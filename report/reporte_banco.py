@@ -28,21 +28,21 @@ class ReporteBanco(models.AbstractModel):
                 'moneda': linea.company_id.currency_id,
             }
 
-            if linea.amount_currency:
+            if linea.currency_id:
                 detalle['moneda'] = linea.currency_id
                 if linea.amount_currency > 0:
                     detalle['debito'] = linea.amount_currency
                 else:
                     detalle['credito'] = -1 * linea.amount_currency
 
-            #Si la cuenta no tiene moneda o la moneda de la cuenta es la misma de la compañía
+            # Si la cuenta no tiene moneda o la moneda de la cuenta es la misma de la compañía
             if not cuenta.currency_id or (cuenta.currency_id.id == linea.company_id.currency_id.id):
-                #Se agregan lineas que no tiene moneda
-                if not linea.currency_id:
+                # Se agregan lineas que no tiene moneda o culla moneda es la misma de la compañia
+                if not linea.currency_id or (linea.currency_id.id == linea.company_id.currency_id.id):
                     lineas.append(detalle)
-            #Sino, Si la cuenta si tienen moneda y la moneda de la cuenta es diferente que la de la compañía
+            # Si la cuenta si tienen moneda y la moneda de la cuenta es diferente que la de la compañía
             elif cuenta.currency_id and (cuenta.currency_id.id != linea.company_id.currency_id.id):
-                #Se agregan lineas que tienen la moneda de la cuenta
+                # Se agregan lineas que tienen la moneda de la cuenta
                 if linea.currency_id.id == cuenta.currency_id.id:
                     lineas.append(detalle)
 
@@ -83,7 +83,7 @@ class ReporteBanco(models.AbstractModel):
             'doc_model': model,
             'data': data['form'],
             'docs': docs,
-            'moneda': docs[0].cuenta_bancaria_id.currency_id or self.env.user.company_id.currency_id,
+            'moneda': docs[0].cuenta_bancaria_id.currency_id or self.env.company.currency_id,
             'lineas': self.lineas,
             'balance_inicial': self.balance_inicial(data['form'])['balance_moneda'] if docs[0].cuenta_bancaria_id.currency_id and docs[0].cuenta_bancaria_id.currency_id.id != docs[0].cuenta_bancaria_id.company_id.currency_id.id else self.balance_inicial(data['form'])['balance'],
             'movimientos_pendientes': self.movimientos_pendientes,
