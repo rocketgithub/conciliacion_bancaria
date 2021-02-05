@@ -43,7 +43,12 @@
                             <td><b>(-) Saldo ingresado</b></td>
                             <td class="text-right"><span t-esc="data['saldo_banco']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
-                        <t t-set="diferencia" t-value="total - data['saldo_banco']"/>
+                        <t t-if="total == 0">
+                            <t t-set="diferencia" t-value="0"/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="diferencia" t-value="total - data['saldo_banco']"/>
+                        </t>
                         <tr>
                             <td><b>(=) Diferencia</b></td>
                             <td class="text-right"><span t-esc="diferencia" t-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
