@@ -16,7 +16,7 @@
                     </div>
 
                     <t t-set="movimiento" t-value="movimientos_pendientes(data)"/>
-                    <t t-set="balance_final" t-value="0"/>
+                    <t t-set="balance_final" t-value="balance_inicial"/>
                     <tr t-foreach="lineas(True, data)" t-as="l">
                         <t t-set="balance_final" t-value="l['balance']"/>
                     </tr>
@@ -43,12 +43,7 @@
                             <td><b>(-) Saldo ingresado</b></td>
                             <td class="text-right"><span t-esc="data['saldo_banco']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
                         </tr>
-                        <t t-if="total == 0">
-                            <t t-set="diferencia" t-value="0"/>
-                        </t>
-                        <t t-else="">
-                            <t t-set="diferencia" t-value="total - data['saldo_banco']"/>
-                        </t>
+                        <t t-set="diferencia" t-value="total - data['saldo_banco']"/>
                         <tr>
                             <td><b>(=) Diferencia</b></td>
                             <td class="text-right"><span t-esc="diferencia" t-options="{'widget': 'monetary', 'display_currency': moneda}"/></td>
@@ -56,7 +51,6 @@
                     </table>
 
                     <t t-set="movimiento" t-value="movimientos_pendientes(data)"/>
-                    <t t-set="balance_final" t-value="0"/>
                     <t t-set="total_credito_conciliado" t-value="0"/>
                     <t t-set="total_debito_conciliado" t-value="0"/>
                     <t t-set="movimiento" t-value="movimientos_pendientes(data)"/>
@@ -115,8 +109,6 @@
                                 <td class="text-right">
                                     <span t-esc="l['balance']" t-options="{'widget': 'monetary', 'display_currency': moneda}"/>
                                 </td>
-                                <t t-set="balance_final" t-value="l['balance']"/>
-                                <t t-set="moneda" t-value="l['moneda']"/>
                             </tr>
                             <tr>
                                 <td colspan="4"></td>
