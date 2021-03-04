@@ -68,17 +68,17 @@
                 </form>
             </field>
         </record>
-
+<!--
         <record model="ir.actions.act_window" id="action_conciliacion_bancaria_limpiar_pendientes_wizard">
             <field name="name">Conciliar Movimientos Bancarios no Encontrados</field>
             <field name="res_model">conciliacion_bancaria.limpiar_pendientes.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-
+-->
         <act_window id="action_conciliacion_bancaria_limpiar_pendientes_wizard"
             name="Conciliar Movimientos Bancarios no Encontrados"
-            binding_model="conciliacion_bancaria.limpiar_pendientes"
+            binding_model="conciliacion_bancaria.pendiente"
             res_model="conciliacion_bancaria.limpiar_pendientes.wizard"
             view_mode="form"
             target="new"/>

@@ -109,7 +109,7 @@ class ConciliacionAutomaticaLimpiarPendientesWizard(models.TransientModel):
 
     def conciliar(self):
         for linea_pendiente in self.env['conciliacion_bancaria.pendiente'].search([('id', 'in', self.env.context.get('active_ids', []))]):
-            for move_line in self.env['account.move.line'].search([('account_id', '=', linea_pendiente.account_id.id), ('ref', '=', linea_pendiente.numero_documento), ('conciliado', '=', False)]):
+            for move_line in self.env['account.move.line'].search([('account_id', '=', linea_pendiente.account_id.id), ('ref', '=', linea_pendiente.numero_documento), ('parent_state','=','posted'), ('conciliado_banco', '=', False)]):
                 if linea_pendiente.monto == move_line.debit - move_line.credit:
                     linea_pendiente.unlink()
                     if not linea.conciliado:
