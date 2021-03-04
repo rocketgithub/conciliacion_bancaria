@@ -43,7 +43,7 @@ class DisponibilidadResumenReporte(models.Model):
                         0 as creditos_pendientes,
                         0 as debitos_pendientes
                     from account_move_line l join account_account a on (l.account_id = a.id) left join conciliacion_bancaria_fecha f on (l.id = f.move_id)
-                    where account_id in (
+                    where l.parent_state = 'posted' and l.account_id in (
                         select id from account_account where internal_type = 'liquidity'
                     )
                     union all

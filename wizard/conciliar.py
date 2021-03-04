@@ -32,7 +32,7 @@ class ConciliacionBancariaConciliar(models.TransientModel):
     def conciliar(self):
         for rec in self:
             for line in self.env['account.move.line'].browse(self.env.context.get('active_ids', [])):
-                if self._check_fiscalyear_lock_date(line.move_id):
+                if line.parent_state == 'posted' and self._check_fiscalyear_lock_date(line.move_id):
                     self.env['conciliacion_bancaria.fecha'].create({
                         'move_id': line.id,
                         'fecha': rec.fecha

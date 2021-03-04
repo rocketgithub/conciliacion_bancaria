@@ -48,7 +48,7 @@ class ReporteBancoResumido(models.AbstractModel):
         lineas['deposito'] = []
         lineas['nota_debito'] = []
         lineas['nota_credito'] = []
-        move_lines = self.env['account.move.line'].search([('account_id', '=', datos.cuenta_bancaria_id.id), ('conciliado_banco','=',False), ('date','<=',datos.fecha_hasta)], order='date')
+        move_lines = self.env['account.move.line'].search([('parent_state','=','posted'), ('account_id', '=', datos.cuenta_bancaria_id.id), ('conciliado_banco','=',False), ('date','<=',datos.fecha_hasta)], order='date')
         for linea in move_lines:
             detalle = {
                 'fecha': linea.date,
