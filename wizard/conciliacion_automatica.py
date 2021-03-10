@@ -36,10 +36,6 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
                 fecha = xlrd.xldate.xldate_as_datetime(sheet.cell(x, 0).value, workbook.datemode)
                 tipo_documento = str(sheet.cell(x, 1).value)
                 numero_documento = str(sheet.cell(x, 2).value)
-                
-                if len(numero_documento) > 1 and numero_documento[len(numero_documento)-1] == '0' and numero_documento[len(numero_documento)-2] == '.':
-                    numero_documento = numero_documento[0:len(numero_documento)-2]
-
                 monto = float(sheet.cell(x, 3).value)
                 tipo_movimiento = str(sheet.cell(x, 4).value)
 
