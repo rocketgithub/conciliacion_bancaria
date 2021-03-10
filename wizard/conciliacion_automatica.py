@@ -48,7 +48,7 @@ class ConciliacionBancariaAutomaticaWizard(models.TransientModel):
                     'numero_documento': numero_documento,
                 }
 
-        apuntes = self.env['account.move.line'].search([('account_id', '=', self.account_id.id), ('conciliado_banco', '=', False)])
+        apuntes = self.env['account.move.line'].search([('account_id', '=', self.account_id.id), ('ref', '!=', False), ('conciliado_banco', '=', False)])
         apuntes_sin_conciliar = self.env['account.move.line']
 
         # Reviso si cada linea del account.move.line coincide con alguna llave del diccionario.
