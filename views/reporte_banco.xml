@@ -20,7 +20,7 @@
                     </div>
 
                     <t t-set="movimiento" t-value="movimientos_pendientes(data)"/>
-                    <t t-set="balance_final" t-value="0"/>
+                    <t t-set="balance_final" t-value="balance_inicial"/>
                     <tr t-foreach="lineas(True, data)" t-as="l">
                         <t t-set="balance_final" t-value="l['balance']"/>
                     </tr>
