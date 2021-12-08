@@ -10,6 +10,7 @@
     'depends' : [ 'account' ],
     'data' : [
         'views/account_views.xml',
+        'views/account_move_views.xml',
         'views/account_move_line.xml',
         'views/report.xml',
         'views/reporte_banco.xml',
