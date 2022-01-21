@@ -11,10 +11,11 @@ class ReporteBanco(models.AbstractModel):
 
         cuenta = self.env['account.account'].browse(datos['cuenta_bancaria_id'][0])
 
-        query = [('parent_state','=','posted'), ('account_id','=',datos['cuenta_bancaria_id'][0]), '|', '&', ('conciliado_banco','=',False), ('date','<=',datos['fecha_hasta']), '&', ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>',datos['fecha_hasta']) ]
+        query = [('parent_state','=','posted'), ('move_id.no_conciliar_con_banco', '=', False), ('account_id','=',datos['cuenta_bancaria_id'][0]), '|', '&', ('conciliado_banco','=',False), ('date','<=',datos['fecha_hasta']), '&', ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>',datos['fecha_hasta']) ]
+        logging.getLogger('conciliadas').warn(conciliadas)
         if conciliadas:
-            query = [('parent_state','=','posted'), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
-
+            query = [('parent_state','=','posted'), ('move_id.no_conciliar_con_banco', '=', False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
+        logging.getLogger('query').warn(query)
         for linea in self.env['account.move.line'].search(query, order='date'):
             detalle = {
                 'fecha': linea.date,
