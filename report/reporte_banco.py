@@ -60,7 +60,7 @@ class ReporteBanco(models.AbstractModel):
         return lineas
 
     def balance_inicial(self, datos):
-        self.env.cr.execute("select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line l join account_move m on (l.move_id = m.id) left join conciliacion_bancaria_fecha f on (l.id = f.move_id) where account_id = %s and parent_state = 'posted' and m.no_conciliar_con_banco = false and fecha < %s", (datos['cuenta_bancaria_id'][0], datos['fecha_desde']))
+        self.env.cr.execute("select coalesce(sum(debit) - sum(credit), 0) as balance, coalesce(sum(amount_currency), 0) as balance_moneda from account_move_line l join account_move m on (l.move_id = m.id) left join conciliacion_bancaria_fecha f on (l.id = f.move_id) where account_id = %s and parent_state = 'posted' and (m.no_conciliar_con_banco is false or m.no_conciliar_con_banco is null) and fecha < %s", (datos['cuenta_bancaria_id'][0], datos['fecha_desde']))
         return self.env.cr.dictfetchall()[0]
 
     def movimientos_pendientes(self,datos):
