@@ -16,7 +16,7 @@ class ReporteBanco(models.AbstractModel):
         if conciliadas:
             query = [('parent_state','=','posted'), ('move_id.no_conciliar_con_banco', '=', False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
         logging.getLogger('query').warn(query)
-        for linea in self.env['account.move.line'].search(query):
+        for linea in self.env['account.move.line'].search(query, order='date'):
             detalle = {
                 'fecha': linea.date,
                 'documento': linea.move_id.name if linea.move_id else '',
@@ -47,7 +47,6 @@ class ReporteBanco(models.AbstractModel):
                 if linea.currency_id.id == cuenta.currency_id.id:
                     lineas.append(detalle)
 
-        lineas = sorted(lineas, key = lambda i: str(i['fecha']))
         balance_inicial = self.balance_inicial(datos)
         if cuenta.currency_id and cuenta.currency_id.id != cuenta.company_id.currency_id.id:
             balance = balance_inicial['balance_moneda']
