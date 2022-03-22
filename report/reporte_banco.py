@@ -16,9 +16,9 @@ class ReporteBanco(models.AbstractModel):
         if conciliadas:
             query = [('parent_state','=','posted'), ('move_id.no_conciliar_con_banco', '=', False), ('account_id','=',datos['cuenta_bancaria_id'][0]), ('conciliado_banco','!=',False), ('conciliado_banco.fecha','>=',datos['fecha_desde']), ('conciliado_banco.fecha','<=',datos['fecha_hasta'])]
         logging.getLogger('query').warn(query)
-        for linea in self.env['account.move.line'].search(query, order='date'):
+        for linea in self.env['account.move.line'].search(query, order='conciliado_banco.fecha' if conciliadas else 'date'):
             detalle = {
-                'fecha': linea.date,
+                'fecha': linea.conciliado_banco.fecha if conciliadas else linea.date,
                 'documento': linea.move_id.name if linea.move_id else '',
                 'nombre': linea.partner_id.name or '',
                 'concepto': (linea.ref if linea.ref else '') + (linea.name if linea.name else ''),
